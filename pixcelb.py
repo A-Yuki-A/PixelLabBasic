@@ -59,7 +59,7 @@ st.markdown(f"- **総色数**: {total_colors:,} 色")
 # 掛け算の具体例
 st.markdown("**具体例**")
 # 1色の例
-title = f"{rgb_bits}ビットなので"
+title = f"各色{rgb_bits}ビットなので"
 if rgb_bits == 1:
     st.markdown(f"- {title} 2 = 2段階（1色につき）")
 elif rgb_bits == 2:
