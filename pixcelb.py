@@ -41,7 +41,6 @@ pixel_bits = rgb_bits * 3
 total_colors = t_levels ** 3
 # 表示: R+G+B形式
 st.markdown(f"- **1画素あたりのbit数**: R {rgb_bits}bit + G {rgb_bits}bit + B {rgb_bits}bit = {pixel_bits}bit")
-st.markdown(f"- **総色数**: {total_colors:,} 色")
 
 # 説明文（総色数が例として 4,096 色になる場合）
 if rgb_bits == 4:
