@@ -47,7 +47,7 @@ st.markdown(f"- **総色数**: {total_colors:,} 色")
 if rgb_bits == 4:
     st.markdown(
         f"**総色数**: {total_colors:,} 色\n\n"
-        f"　　各色{rgb_bits}bitなので 2 × 2 × 2 × 2 = {t_levels}段階（1色につき）  \n"
+        f"　各色{rgb_bits}bitなので 2 × 2 × 2 × 2 = {t_levels}段階（1色につき）  \n"
         f"　全色で {t_levels} × {t_levels} × {t_levels} = {total_colors:,} 色"
     )
 
