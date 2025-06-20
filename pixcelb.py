@@ -43,10 +43,13 @@ total_colors = t_levels ** 3
 st.markdown(f"- **1画素あたりのbit数**: R {rgb_bits}bit + G {rgb_bits}bit + B {rgb_bits}bit = {pixel_bits}bit")
 st.markdown(f"- **総色数**: {total_colors:,} 色")
 
-# 説明文（総色数が 4,096 色になる例）
+# 説明文（総色数が例として 4,096 色になる場合）
 if rgb_bits == 4:
-    st.markdown(f"- 各色4bitなので 2 × 2 × 2 × 2 = {t_levels}段階（1色につき）")
-    st.markdown(f"- 全色で {t_levels} × {t_levels} × {t_levels} = {total_colors:,} 色")
+    st.markdown(
+        f"**総色数**: {total_colors:,} 色\n\n"
+        f"　　各色{rgb_bits}bitなので 2 × 2 × 2 × 2 = {t_levels}段階（1色につき）  \n"
+        f"　全色で {t_levels} × {t_levels} × {t_levels} = {total_colors:,} 色"
+    )
 
 # 各色成分画像生成
 rows = 100
