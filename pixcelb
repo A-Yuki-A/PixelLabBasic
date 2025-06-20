@@ -1,0 +1,34 @@
+import streamlit as st
+import numpy as np
+import matplotlib.pyplot as plt
+
+st.title("RGB 階調デモツール")
+
+# スライダーでビット/チャンネルを選択
+bits = st.slider("ビット/チャンネル", min_value=1, max_value=8, value=4, step=1)
+
+# 計算
+pixel_bits = bits * 3
+colors = 2 ** pixel_bits
+
+# 数値を表示
+st.markdown(f"- **ビット/ピクセル**: {pixel_bits} ビット")
+st.markdown(f"- **階調（色数）**: {colors:,} 色")
+
+# グレースケールグラデーションを生成して表示
+steps = 2 ** bits
+gradient = np.linspace(0, 1, steps)
+gradient = np.tile(gradient, (50, 1))  # 高さ50ピクセルに拡大
+st.image(gradient, width=600, clamp=True,
+         caption=f"{bits} bit/ch のグレースケール ({steps} 段階)")
+
+# 「全ビットレンジの色数グラフ」をオプションで表示
+if st.checkbox("全ビットレンジの色数グラフを表示"):
+    bit_levels = [1, 2, 4, 8]
+    counts = [2 ** (3 * b) for b in bit_levels]
+    fig, ax = plt.subplots()
+    ax.bar([str(b) for b in bit_levels], counts)
+    ax.set_xlabel("ビット/チャンネル")
+    ax.set_ylabel("色数")
+    ax.set_title("ビット数と色数の関係")
+    st.pyplot(fig)
