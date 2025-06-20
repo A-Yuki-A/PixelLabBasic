@@ -5,14 +5,25 @@ import io
 import base64
 
 # --- グレースケール ---
-st.title("階調（グレースケール）")
+# タイトル背景を淡いグレーに
+st.markdown(
+    """
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
+      <strong>階調（グレースケール）</strong>
+    </div>
+    """, unsafe_allow_html=True
+)
 
 g_bits = st.slider("グレースケールのbit数", 1, 8, 4, step=1)
 # グレースケールの段階数 = 2^bit数
 g_levels = 2 ** g_bits
 st.markdown(f"- **1画素あたりのbit数**: {g_bits} bit")
-st.markdown(f"  （bit数が増えるごとに色の段階が倍になります）")
 st.markdown(f"- **色の段階数**: {g_levels:,} 段階")
+# グレースケール説明（例：4bitの場合）
+if g_bits == 4:
+    st.markdown(
+        f"・4bitなので 2 × 2 × 2 × 2 = {g_levels}段階"
+    )
 
 # グレースケール画像生成
 g_gradient = np.linspace(0, 1, g_levels)
@@ -30,8 +41,19 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
+# 区切り線を表示
+st.markdown("<hr style='border:1px solid #ccc; margin:20px 0;'>", unsafe_allow_html=True)
+
 # --- RGB ---
-st.header("階調（RGB）")
+# タイトル背景を淡いグレーに
+st.markdown(
+    """
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
+      <strong>階調（RGB）</strong>
+    </div>
+    """, unsafe_allow_html=True
+)
+
 rgb_bits = st.slider("RGB各色のbit数", 1, 8, 4, step=1)
 # 各色1色あたりの段階数
 t_levels = 2 ** rgb_bits
@@ -42,11 +64,11 @@ total_colors = t_levels ** 3
 # 表示: R+G+B形式
 st.markdown(f"- **1画素あたりのbit数**: R {rgb_bits}bit + G {rgb_bits}bit + B {rgb_bits}bit = {pixel_bits}bit")
 
-# 説明文（総色数が例として 4,096 色になる場合）
+# 総色数表示（例：4bitの場合・を追加）
 if rgb_bits == 4:
     st.markdown(
-        f"**総色数**: {total_colors:,} 色\n\n"
-        f"　各色{rgb_bits}bitなので 2 × 2 × 2 × 2 = {t_levels}段階（1色につき）  \n"
+        f"・総色数: {total_colors:,} 色\n\n"
+        f"　各色4bitなので 2 × 2 × 2 × 2 = {t_levels}段階（1色につき）  \n"
         f"　全色で {t_levels} × {t_levels} × {t_levels} = {total_colors:,} 色"
     )
 
