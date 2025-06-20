@@ -14,18 +14,6 @@ st.markdown(f"- **1画素あたりのbit数**: {g_bits} bit")
 st.markdown(f"  （bit数が増えるごとに色の段階が倍になります）")
 st.markdown(f"- **色の段階数**: {g_levels:,} 段階")
 
-# 具体例
-st.markdown("**具体例**")
-if g_bits == 1:
-    st.markdown(f"- {g_bits}bitなので 2 = 2段階")
-elif g_bits == 2:
-    st.markdown(f"- {g_bits}bitなので 2 × 2 = 4段階")
-elif g_bits == 3:
-    st.markdown(f"- {g_bits}bitなので 2 × 2 × 2 = 8段階")
-else:
-    factors = " × ".join(["2"] * g_bits)
-    st.markdown(f"- {g_bits}bitなので {factors} = {g_levels:,}段階")
-
 # グレースケール画像生成
 g_gradient = np.linspace(0, 1, g_levels)
 g_gradient = np.tile(g_gradient, (100, 1))
@@ -52,21 +40,13 @@ pixel_bits = rgb_bits * 3
 # 総色数 = 段階数^3
 total_colors = t_levels ** 3
 # 表示: R+G+B形式
-st.markdown(f"- **1画素あたりのbit数**: R {rgb_bits}bit + G {rgb_bits}bit + B {rgb_bits}bit = {pixel_bits}bit （R {rgb_bits}bit + G {rgb_bits}bit + B {rgb_bits}bit = {pixel_bits}bit）")
+st.markdown(f"- **1画素あたりのbit数**: R {rgb_bits}bit + G {rgb_bits}bit + B {rgb_bits}bit = {pixel_bits}bit")
 st.markdown(f"- **総色数**: {total_colors:,} 色")
 
-# 具体例
-st.markdown("**具体例**")
-if rgb_bits == 1:
-    st.markdown(f"- 各色1bitなので 2 = 2段階（1色につき）")
-elif rgb_bits == 2:
-    st.markdown(f"- 各色2bitなので 2 × 2 = 4段階（1色につき）")
-elif rgb_bits == 3:
-    st.markdown(f"- 各色3bitなので 2 × 2 × 2 = 8段階（1色につき）")
-else:
-    factors = " × ".join(["2"] * rgb_bits)
-    st.markdown(f"- 各色{rgb_bits}bitなので {factors} = {t_levels:,}段階（1色につき）")
-st.markdown(f"- 全色で {t_levels:,} × {t_levels:,} × {t_levels:,} = {total_colors:,} 色")
+# 説明文（総色数が 4,096 色になる例）
+if rgb_bits == 4:
+    st.markdown(f"- 各色4bitなので 2 × 2 × 2 × 2 = {t_levels}段階（1色につき）")
+    st.markdown(f"- 全色で {t_levels} × {t_levels} × {t_levels} = {total_colors:,} 色")
 
 # 各色成分画像生成
 rows = 100
@@ -91,6 +71,7 @@ b_img = Image.fromarray(b).resize((600, 100), Image.NEAREST)
 r_b64 = to_base64(r_img)
 g_b64 = to_base64(g_img)
 b_b64 = to_base64(b_img)
+
 html_rgb = f"""
 <div style="width:600px; border:1px solid #ccc; margin:10px auto;">
   <div style="font-size:14px; text-align:center;">R (赤色成分)</div>
