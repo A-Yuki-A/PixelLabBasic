@@ -52,7 +52,7 @@ rgb_bits = st.slider("RGB各色のビット数", 1, 8, 4, step=1)
 levels = 2 ** rgb_bits
 pixel_bits = rgb_bits * 3
 total_colors = levels ** 3
-st.markdown(f"- **1画素あたりのビット数**: {pixel_bits} ビット")
+st.markdown(f"- **1画素あたりのビット数**: {pixel_bits} ビット （各色{rgb_bits}bit）")
 st.markdown(f"  （RGBそれぞれのビットを合わせた合計）")
 st.markdown(f"- **総色数**: {total_colors:,} 色")
 
