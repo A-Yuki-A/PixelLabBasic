@@ -26,8 +26,13 @@ buffer = io.BytesIO()
 pil_img.save(buffer, format="PNG")
 b64 = base64.b64encode(buffer.getvalue()).decode()
 
-# 5. HTMLで表示（高さ200pxに固定、横幅は自動）
-html = f"<img src='data:image/png;base64,{b64}' style='height:200px; width:auto; display:block; margin:0 auto;'/>"
+# 5. HTMLで表示：横幅600pxに固定、高さは自動、薄いグレー枠
+html = f"""
+<div style="width:600px; border:1px solid #ccc; margin:0 auto;">
+  <img src="data:image/png;base64,{b64}" 
+       style="width:600px; height:auto; display:block;" />
+</div>
+"""
 st.markdown(html, unsafe_allow_html=True)
 
 # 6. オプション：全ビットレンジ比較グラフ
