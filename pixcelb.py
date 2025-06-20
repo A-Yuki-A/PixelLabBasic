@@ -18,12 +18,10 @@ if g_bits <= 5:
     terms = ' × '.join(['2'] * g_bits)
     st.markdown(f"- 2 を {g_bits} 回掛け合わせる → {terms} = {g_colors}")
 else:
-    # ビット数が多い場合の例示
-    st.markdown(f"- 2 を {g_bits} 回掛け合わせると色数が求まります。例: 2×2×2×2 = 16 のように。")
+    st.markdown(f"- 2 を {g_bits} 回掛け合わせて色数を求めます。例: 2×2×2×2 = 16 のように。")
 
 # グレースケール画像生成
-cols = g_colors
-g_gradient = np.linspace(0, 1, cols)
+g_gradient = np.linspace(0, 1, g_colors)
 g_gradient = np.tile(g_gradient, (100, 1))
 g_img_arr = (g_gradient * 255).astype("uint8")
 g_pil = Image.fromarray(g_img_arr, mode="L")
@@ -39,9 +37,9 @@ st.markdown(f"""
 
 # --- RGBデモ ---
 st.header("階調デモ（RGB）")
-rgb_bits = st.slider("RGB 1チャンネルあたりのビット数", 1, 8, 4, step=1)
+rgb_bits = st.slider("RGB 1色あたりのビット数", 1, 8, 4, step=1)
 
-# チャンネルごとの階調数と総色数
+# 色成分ごとの階調数と総色数
 levels = 2 ** rgb_bits
 pixel_bits = rgb_bits * 3
 total_colors = levels ** 3
@@ -50,16 +48,15 @@ st.markdown(f"- **総色数**: {total_colors:,} 色")
 
 # RGB計算式（掛け算で表現）
 st.markdown("**計算のしくみ（掛け算で示す）**")
-# 1チャンネル
 if rgb_bits <= 5:
     term_single = ' × '.join(['2'] * rgb_bits)
-    st.markdown(f"- 1チャンネルあたりは 2 を {rgb_bits} 回掛け合わせる → {term_single} = {levels} 段階")
+    st.markdown(f"- 1色あたりは 2 を {rgb_bits} 回掛け合わせる → {term_single} = {levels} 段階")
 else:
-    st.markdown(f"- 1チャンネルあたりは 2 を {rgb_bits} 回掛け合わせます。例: 2×2×2×2 = 16 段階など。")
-# 3チャンネル合計
-st.markdown(f"- 全チャンネル合計は {levels} × {levels} × {levels} = {total_colors} 色")
+    st.markdown(f"- 1色あたりは 2 を {rgb_bits} 回掛け合わせて色数を求めます。例: 2×2×2×2 = 16 段階など。")
+# 3色の組み合わせによる総色数
+st.markdown(f"- 全色成分の組み合わせは {levels} × {levels} × {levels} = {total_colors} 色")
 
-# R/G/B 各チャンネル画像
+# R/G/B 各色成分画像生成
 rows = 100
 r = np.zeros((rows, levels, 3), dtype="uint8")
 r_vals = np.linspace(0, 255, levels).astype("uint8")
@@ -88,11 +85,11 @@ b_b64 = to_base64(b_img)
 # HTML表示
 html_rgb = f"""
 <div style="width:600px; border:1px solid #ccc; margin:10px auto;">
-  <div style="font-size:14px; text-align:center;">R (赤チャンネル)</div>
+  <div style="font-size:14px; text-align:center;">R (赤色成分)</div>
   <img src="data:image/png;base64,{r_b64}" style="width:600px; height:100px; display:block;"/>
-  <div style="font-size:14px; text-align:center;">G (緑チャンネル)</div>
+  <div style="font-size:14px; text-align:center;">G (緑色成分)</div>
   <img src="data:image/png;base64,{g_b64}" style="width:600px; height:100px; display:block;"/>
-  <div style="font-size:14px; text-align:center;">B (青チャンネル)</div>
+  <div style="font-size:14px; text-align:center;">B (青色成分)</div>
   <img src="data:image/png;base64,{b_b64}" style="width:600px; height:100px; display:block;"/>
 </div>
 """
