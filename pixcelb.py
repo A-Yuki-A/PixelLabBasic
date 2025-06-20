@@ -11,22 +11,22 @@ st.title("階調（グレースケール）")
 g_bits = st.slider("グレースケールのビット数", 1, 8, 4, step=1)
 
 # 計算: グレースケールの段階数
-# 1ビットなら2段階、2ビットなら2×2=4段階、3ビットなら2×2×2=8段階...
 g_levels = 2 ** g_bits
 st.markdown(f"- **1画素あたりのビット数**: {g_bits} ビット")
 st.markdown(f"  （ビット数が増えるごとに色の段階が倍になります）")
 st.markdown(f"- **色の段階数**: {g_levels:,} 段階")
 
 # 掛け算の具体例
+st.markdown("**具体例**")
 if g_bits == 1:
-    st.markdown(f"- 2 = 2段階")
+    st.markdown(f"- {g_bits}ビットなので 2 = 2段階")
 elif g_bits == 2:
-    st.markdown(f"- 2 × 2 = 4段階")
+    st.markdown(f"- {g_bits}ビットなので 2 × 2 = 4段階")
 elif g_bits == 3:
-    st.markdown(f"- 2 × 2 × 2 = 8段階")
+    st.markdown(f"- {g_bits}ビットなので 2 × 2 × 2 = 8段階")
 else:
     factors = " × ".join(["2"] * g_bits)
-    st.markdown(f"- {factors} = {g_levels:,}段階")
+    st.markdown(f"- {g_bits}ビットなので {factors} = {g_levels:,}段階")
 
 # グレースケール画像生成
 g_gradient = np.linspace(0, 1, g_levels)
@@ -56,19 +56,21 @@ st.markdown(f"- **1画素あたりのビット数**: {pixel_bits} ビット")
 st.markdown(f"  （RGBそれぞれのビットを合わせた合計）")
 st.markdown(f"- **総色数**: {total_colors:,} 色")
 
-# 掛け算の具体例（1色）
+# 掛け算の具体例
+st.markdown("**具体例**")
+# 1色の例
+title = f"{rgb_bits}ビットなので"
 if rgb_bits == 1:
-    st.markdown("- 2 = 2段階（1色につき）")
+    st.markdown(f"- {title} 2 = 2段階（1色につき）")
 elif rgb_bits == 2:
-    st.markdown("- 2 × 2 = 4段階（1色につき）")
+    st.markdown(f"- {title} 2 × 2 = 4段階（1色につき）")
 elif rgb_bits == 3:
-    st.markdown("- 2 × 2 × 2 = 8段階（1色につき）")
+    st.markdown(f"- {title} 2 × 2 × 2 = 8段階（1色につき）")
 else:
     factors = " × ".join(["2"] * rgb_bits)
-    st.markdown(f"- {factors} = {levels:,}段階（1色につき）")
-
-# 掛け算の具体例（RGB合計）
-st.markdown(f"- {levels:,} × {levels:,} × {levels:,} = {total_colors:,} 色")
+    st.markdown(f"- {title} {factors} = {levels:,}段階（1色につき）")
+# RGB合計の例
+st.markdown(f"- 全色で {levels:,} × {levels:,} × {levels:,} = {total_colors:,} 色")
 
 # 各色成分画像生成
 rows = 100
