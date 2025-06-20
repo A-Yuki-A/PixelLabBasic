@@ -1,6 +1,5 @@
 import streamlit as st
 import numpy as np
-import matplotlib.pyplot as plt
 
 st.title("階調デモ（グレースケール）")
 
@@ -12,19 +11,20 @@ colors = 2 ** bits
 st.markdown(f"- **ビット/ピクセル**: {bits} ビット")
 st.markdown(f"- **階調（色数）**: {colors:,} 段階")
 
-# 3. 1行だけのグレースケールデータを作成
-gradient = np.linspace(0, 1, colors)[None, :]  # shape = (1, colors)
+# 3. グレースケールデータを作成（高さ200px、横colorsピクセル）
+gradient = np.linspace(0, 1, colors)     # 0～1 を colors 分割
+gradient = np.tile(gradient, (200, 1))    # 縦200行×横colors列
 
-# 4. Matplotlib で表示サイズを固定（横長、高さ200px相当）
-#    figsize=(幅インチ, 高さインチ)、dpi=100 → 高さ 2in * 100dpi = 200px
-fig, ax = plt.subplots(figsize=(colors / 10, 2), dpi=100)
-ax.imshow(gradient, aspect="auto", cmap="gray", interpolation="nearest")
-ax.axis("off")
+# 4. Streamlit で表示
+#    use_column_width=True で幅を画面いっぱいに拡大、縦横比はデータの比率のまま
+st.image(
+    gradient,
+    clamp=True,
+    caption=f"{bits} bit のグレースケール ({colors} 段階)",
+    use_column_width=True
+)
 
-# 5. Streamlit に描画
-st.pyplot(fig)
-
-# 6. オプション：全ビットレンジ比較グラフ
+# 5. オプション：全ビットレンジ比較グラフ
 if st.checkbox("全ビットレンジを比較する"):
     bit_levels = list(range(1, 9))
     counts = {f"{b} bit": 2 ** b for b in bit_levels}
