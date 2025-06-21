@@ -9,20 +9,20 @@ st.set_page_config(page_title="Color Depth Explorer", layout="centered")
 st.markdown(
     """
     <style>
-    /* アプリ背景 */
-    [data-testid="stAppViewContainer"] { background-color: #f5f5f5; }
-    /* コンテナ背景 */
-    div.block-container { background-color: #fcfcfc; padding: 1.5rem; border-radius: 10px; }
-    /* 大見出し */
-    h1 { color: #4B8BBE; }
-    /* セクション見出し */
-    h2 { background-color: #f0f0f0; padding: 0.4rem; border-left: 4px solid #cccccc; border-radius: 4px; }
-    /* サブ見出し */
-    h3 { background-color: #f0f0f0; padding: 0.3rem; border-left: 4px solid #cccccc; border-radius: 4px; }
-    /* Expanderヘッダー */
-    .stExpanderHeader { background-color: #eeeeee !important; border-radius: 4px; }
-    /* ボタン */
-    button[data-baseweb="button"] { background-color: #e0f7fa !important; color: #000; border: 1px solid #b2ebf2 !important; border-radius: 5px; padding: 0.5rem 1rem; }
+      /* アプリ背景 */
+      [data-testid="stAppViewContainer"] { background-color: #f5f5f5; }
+      /* コンテナ背景 */
+      div.block-container { background-color: #fcfcfc; padding: 1.5rem; border-radius: 10px; }
+      /* 大見出し */
+      h1 { color: #4B8BBE; font-size:32px; }
+      /* セクション見出し */
+      h2 { background-color: #f0f0f0; padding: 0.6rem; border-left: 4px solid #cccccc; border-radius: 4px; font-size:24px; }
+      /* 小見出し */
+      h3 { background-color: #f0f0f0; padding: 0.4rem; border-left: 4px solid #cccccc; border-radius: 4px; font-size:20px; }
+      /* Expanderヘッダー */
+      .stExpanderHeader { background-color: #eeeeee !important; border-radius: 4px; }
+      /* ボタン */
+      button[data-baseweb="button"] { background-color: #e0f7fa !important; color: #000; border: 1px solid #b2ebf2 !important; border-radius: 5px; padding: 0.5rem 1rem; }
     </style>
     """, unsafe_allow_html=True
 )
@@ -41,10 +41,9 @@ verts = [np.array([cx, cy - h/2]), np.array([cx - t_side/2, cy + h/2]), np.array
 
 with col1:
     t = st.slider("YMC Mix", 0.0, 1.0, 0.0, key="ymc_mix")
-    base = Image.new("RGBA", (size, size), "white")
     imgs = []
     for vert, col in zip(verts, [(255,255,0,180), (255,0,255,180), (0,255,255,180)]):
-        img = base.copy()
+        img = Image.new("RGBA", (size, size), "white")
         draw = ImageDraw.Draw(img)
         pos = tuple((vert*(1-t) + np.array([cx, cy])*t).astype(int))
         draw.ellipse([pos[0]-radius, pos[1]-radius, pos[0]+radius, pos[1]+radius], fill=col)
@@ -54,10 +53,9 @@ with col1:
 
 with col2:
     t2 = st.slider("RGB Mix", 0.0, 1.0, 0.0, key="rgb_mix")
-    base = Image.new("RGBA", (size, size), "black")
     imgs = []
     for vert, col in zip(verts, [(255,0,0,180), (0,255,0,180), (0,0,255,180)]):
-        img = base.copy()
+        img = Image.new("RGBA", (size, size), "black")
         draw = ImageDraw.Draw(img)
         pos = tuple((vert*(1-t2) + np.array([cx, cy])*t2).astype(int))
         draw.ellipse([pos[0]-radius, pos[1]-radius, pos[0]+radius, pos[1]+radius], fill=col)
@@ -87,7 +85,7 @@ st.subheader(f"1画素あたりのbit数: R {rgb_bits}bit + G {rgb_bits}bit + B 
 st.subheader(f"総色数: {total_colors:,} 色")
 st.subheader(f"各色{rgb_bits}bitなので {' × '.join(['2'] * rgb_bits)} = {levels:,} 色（1色につき）")
 st.subheader(f"全色で {levels:,} × {levels:,} × {levels:,} = {total_colors:,} 色")
-for comp, color in zip(['R','G','B'], [(255,0,0),(0,255,0),(0,0,255)]):
-    arr = np.zeros((50,levels,3), dtype=np.uint8)
+for comp,color in zip(['R','G','B'],[(255,0,0),(0,255,0),(0,0,255)]):
+    arr = np.zeros((50,levels,3),dtype=np.uint8)
     arr[:,:,{'R':0,'G':1,'B':2}[comp]] = np.linspace(0,255,levels,dtype=np.uint8)
-    st.image(Image.fromarray(arr).resize((600,100),Image.NEAREST), use_container_width=True)
+    st.image(Image.fromarray(arr).resize((600,100),Image.NEAREST),use_container_width=True)
