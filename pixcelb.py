@@ -36,45 +36,32 @@ v3 = np.array([cx + t_side/2, cy + h/2])
 center = np.array([cx, cy])
 
 with col1:
-    t = st.slider("YMC Mix", 0.0, 1.0, 0.0, step=0.01, key="ymc_mix")
-    # Positions interpolate
-    pos_y = (v1 * (1-t) + center * t).astype(int)
-    pos_m = (v2 * (1-t) + center * t).astype(int)
-    pos_c = (v3 * (1-t) + center * t).astype(int)
-    # Create individual channels on white
-    img_y = Image.new("RGB", (size, size), "white")
-    img_m = Image.new("RGB", (size, size), "white")
-    img_c = Image.new("RGB", (size, size), "white")
-    d = ImageDraw.Draw(img_y)
-    d.ellipse([pos_y[0]-radius, pos_y[1]-radius, pos_y[0]+radius, pos_y[1]+radius], fill=(255,255,0))
-    d = ImageDraw.Draw(img_m)
-    d.ellipse([pos_m[0]-radius, pos_m[1]-radius, pos_m[0]+radius, pos_m[1]+radius], fill=(255,0,255))
-    d = ImageDraw.Draw(img_c)
-    d.ellipse([pos_c[0]-radius, pos_c[1]-radius, pos_c[0]+radius, pos_c[1]+radius], fill=(0,255,255))
-    # Multiply for subtractive mixing
-    mix1 = ImageChops.multiply(img_y, img_m)
-    ymc_mix = ImageChops.multiply(mix1, img_c)
-    st.image(ymc_mix, caption="Subtractive (YMC)", use_container_width=True)
+    # Render image first
+    t = st.session_state.get("ymc_mix", 0.0)
+    img = Image.new("RGBA", (size, size), "white")
+    draw = ImageDraw.Draw(img)
+    colors = [(255,255,0,180), (255,0,255,180), (0,255,255,180)]  # Y, M, C
+    for vert, col in zip([v1, v2, v3], colors):
+        pos = tuple((vert * (1-t) + center * t).astype(int))
+        draw.ellipse([pos[0]-radius, pos[1]-radius, pos[0]+radius, pos[1]+radius], fill=col)
+    st.image(img, caption="Subtractive (YMC)", use_container_width=True)
+    # Slider under image with larger label
+    st.markdown("<span style='font-size:18px;'>YMC Mix</span>", unsafe_allow_html=True)
+    ymc_mix = st.slider("", 0.0, 1.0, 0.0, step=0.01, key="ymc_mix")
 
 with col2:
-    t2 = st.slider("RGB Mix", 0.0, 1.0, 0.0, step=0.01, key="rgb_mix")
-    # Positions
-    pr = (v1 * (1-t2) + center * t2).astype(int)
-    pg = (v2 * (1-t2) + center * t2).astype(int)
-    pb = (v3 * (1-t2) + center * t2).astype(int)
-    # Individual channels on black
-    img_r = Image.new("RGB", (size, size), "black")
-    img_g = Image.new("RGB", (size, size), "black")
-    img_b = Image.new("RGB", (size, size), "black")
-    d = ImageDraw.Draw(img_r)
-    d.ellipse([pr[0]-radius, pr[1]-radius, pr[0]+radius, pr[1]+radius], fill=(255,0,0))
-    d = ImageDraw.Draw(img_g)
-    d.ellipse([pg[0]-radius, pg[1]-radius, pg[0]+radius, pg[1]+radius], fill=(0,255,0))
-    d = ImageDraw.Draw(img_b)
-    d.ellipse([pb[0]-radius, pb[1]-radius, pb[0]+radius, pb[1]+radius], fill=(0,0,255))
-    # Additive mixing
-    mix_rg = ImageChops.add(img_r, img_g, scale=1.0, offset=0)
-    rgb_mix_img = ImageChops.add(mix_rg, img_b, scale=1.0, offset=0)
-    st.image(rgb_mix_img, caption="Additive (RGB)", use_container_width=True)
+    # Render image first
+    t2 = st.session_state.get("rgb_mix", 0.0)
+    img2 = Image.new("RGBA", (size, size), "black")
+    draw2 = ImageDraw.Draw(img2)
+    cols2 = [(255,0,0,180), (0,255,0,180), (0,0,255,180)]  # R, G, B
+    for vert, col in zip([v1, v2, v3], cols2):
+        pos = tuple((vert * (1-t2) + center * t2).astype(int))
+        draw2.ellipse([pos[0]-radius, pos[1]-radius, pos[0]+radius, pos[1]+radius], fill=col)
+    mix_rg = ImageChops.add(ImageChops.add(img_r := Image.new("RGBA", (size, size), "black"), img2), ImageChops.new("RGBA", (size,size), 0))
+    st.image(img2, caption="Additive (RGB)", use_container_width=True)
+    # Slider under image with larger label
+    st.markdown("<span style='font-size:18px;'>RGB Mix</span>", unsafe_allow_html=True)
+    rgb_mix = st.slider("", 0.0, 1.0, 0.0, step=0.01, key="rgb_mix")
 
-# ... (rest of code unchanged) ...
+# ... rest of code unchanged ...
