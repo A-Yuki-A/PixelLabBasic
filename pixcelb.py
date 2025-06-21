@@ -4,6 +4,15 @@ from PIL import Image
 import io
 import base64
 
+# --- Tool Name ---
+st.markdown(
+    """
+    <h1 style='text-align:center; color:#4B8BBE; margin-bottom:20px;'>
+      ColorFusion Explorer
+    </h1>
+    """, unsafe_allow_html=True
+)
+
 # --- グレースケール ---
 # タイトル背景を淡いグレーにし、フォントサイズを大きく設定
 st.markdown(
