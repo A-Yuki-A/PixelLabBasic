@@ -5,25 +5,26 @@ import io
 import base64
 
 # --- グレースケール ---
-# タイトル背景を淡いグレーに
+# タイトル背景を淡いグレーにし、フォントサイズを大きく設定
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:20px;'>
       <strong>階調（グレースケール）</strong>
     </div>
     """, unsafe_allow_html=True
 )
 
+# 修正箇所: スライダーラベルを変更
 g_bits = st.slider("グレースケールのbit数を操作してください。", 1, 8, 4, step=1)
 # グレースケールの段階数 = 2^bit数
 g_levels = 2 ** g_bits
 # 基本情報表示
 st.markdown(f"- **1画素あたりのbit数**: {g_bits} bit")
-st.markdown(f"- **総色数**: {g_levels:,} 色")
-# 例示：各bit数の場合の掛け算説明
+st.markdown(f"- **色の段階数**: {g_levels:,} 段階")
+# 例示：bit数に合わせた掛け算説明、先頭にスペースを1マス
 factors = " × ".join(["2"] * g_bits)
 st.markdown(
-    f"　 {g_bits}bitなので {factors} = {g_levels:,}色"
+    f"　{g_bits}bitなので {factors} = {g_levels:,}色"
 )
 
 # グレースケール画像生成
@@ -46,15 +47,16 @@ st.markdown(f"""
 st.markdown("<hr style='border:1px solid #ccc; margin:20px 0;'>", unsafe_allow_html=True)
 
 # --- RGB ---
-# タイトル背景を淡いグレーに
+# タイトル背景を淡いグレーにし、フォントサイズを大きく設定
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:20px;'>
       <strong>階調（RGB）</strong>
     </div>
     """, unsafe_allow_html=True
 )
 
+# 修正箇所: スライダーラベルを変更
 rgb_bits = st.slider("RGB各色のbit数を操作してください。", 1, 8, 4, step=1)
 # 色ごとの段階数
 t_levels = 2 ** rgb_bits
@@ -65,12 +67,12 @@ total_colors = t_levels ** 3
 # 基本情報表示
 st.markdown(f"- **1画素あたりのbit数**: R {rgb_bits}bit + G {rgb_bits}bit + B {rgb_bits}bit = {pixel_bits}bit")
 
-# 常に表示される総色数と説明
+# 常に表示される総色数と説明、総色数を太文字に、先頭に■を追加
 rgb_factors = " × ".join(["2"] * rgb_bits)
 st.markdown(
-    f"- **総色数**: {total_colors:,} 色\n\n"
-    f"　各色{rgb_bits}bitなので {rgb_factors} = {t_levels:,}色（1色につき）  \n"
-    f"　３色で表現できる色数は {t_levels:,} × {t_levels:,} × {t_levels:,} = {total_colors:,} 色"
+    f"■ **総色数**: {total_colors:,} 色\n\n"
+    f"　各色{rgb_bits}bitなので {rgb_factors} = {t_levels:,}段階（1色につき）  \n"
+    f"　全色で {t_levels:,} × {t_levels:,} × {t_levels:,} = {total_colors:,} 色"
 )
 
 # 各色成分画像生成
