@@ -43,12 +43,12 @@ size = 200
 radius = 40
 cx, cy = size // 2, size // 2
 # Triangle vertices
- t_side = size - radius*2
- h = t_side * np.sqrt(3) / 2
- v1 = np.array([cx, cy - h/2])
- v2 = np.array([cx - t_side/2, cy + h/2])
- v3 = np.array([cx + t_side/2, cy + h/2])
- center = np.array([cx, cy])
+t_side = size - radius*2
+h = t_side * np.sqrt(3) / 2
+v1 = np.array([cx, cy - h/2])
+v2 = np.array([cx - t_side/2, cy + h/2])
+v3 = np.array([cx + t_side/2, cy + h/2])
+center = np.array([cx, cy])([cx, cy])
 
 with col1:
     t = st.slider("YMC Mix（色の三原色）", 0.0, 1.0, 0.0, step=0.01, key="ymc_mix")
