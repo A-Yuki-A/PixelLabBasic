@@ -22,36 +22,40 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
-# Two columns: YMC on left, RGB on right
+# Layout: two columns for YMC and RGB
 col1, col2 = st.columns(2)
 size = 200
 radius = 60
+cx, cy = size // 2, size // 2
+# Define triangle vertices for initial positions
+t_side = size - radius
+h = t_side * np.sqrt(3) / 2
+v1 = np.array([cx, cy - h/2])
+v2 = np.array([cx - t_side/2, cy + h/2])
+v3 = np.array([cx + t_side/2, cy + h/2])
+center = np.array([cx, cy])
 
 with col1:
-    st.markdown("<span style='font-size:18px;'>YMC Separation Distance</span>", unsafe_allow_html=True)
-    y_sep = st.slider("", 0, 100, 40, key="ymc_sep")
-    # Draw Y, M, C on white
-    ymc_img = Image.new("RGBA", (size, size), "white")
-    draw = ImageDraw.Draw(ymc_img)
-    cx, cy = size // 2, size // 2
-    positions = [(cx - y_sep, cy), (cx, cy), (cx + y_sep, cy)]
-    colors = [(255,255,0,180), (255,0,255,180), (0,255,255,180)]
-    for pos, col in zip(positions, colors):
+    t = st.slider("YMC Mix", 0.0, 1.0, 0.0, step=0.01, key="ymc_mix")
+    # Create subtractive mixing on white
+    img = Image.new("RGBA", (size, size), "white")
+    draw = ImageDraw.Draw(img)
+    colors = [(255,255,0,180), (255,0,255,180), (0,255,255,180)]  # Y, M, C
+    for vert, col in zip([v1, v2, v3], colors):
+        pos = tuple((vert * (1-t) + center * t).astype(int))
         draw.ellipse([pos[0]-radius, pos[1]-radius, pos[0]+radius, pos[1]+radius], fill=col)
-    st.image(ymc_img, caption="Subtractive (YMC)", width=250)
+    st.image(img, caption="Subtractive (YMC)", use_column_width=True)
 
 with col2:
-    st.markdown("<span style='font-size:18px;'>RGB Separation Distance</span>", unsafe_allow_html=True)
-    r_sep = st.slider("", 0, 100, 40, key="rgb_sep")
-    # Draw R, G, B on black
-    rgb_img = Image.new("RGBA", (size, size), "black")
-    draw2 = ImageDraw.Draw(rgb_img)
-    cx2, cy2 = size // 2, size // 2
-    positions2 = [(cx2 - r_sep, cy2), (cx2, cy2), (cx2 + r_sep, cy2)]
-    cols2 = [(255,0,0,180), (0,255,0,180), (0,0,255,180)]
-    for pos, col in zip(positions2, cols2):
+    t2 = st.slider("RGB Mix", 0.0, 1.0, 0.0, step=0.01, key="rgb_mix")
+    # Create additive mixing on black
+    img2 = Image.new("RGBA", (size, size), "black")
+    draw2 = ImageDraw.Draw(img2)
+    cols2 = [(255,0,0,180), (0,255,0,180), (0,0,255,180)]  # R, G, B
+    for vert, col in zip([v1, v2, v3], cols2):
+        pos = tuple((vert * (1-t2) + center * t2).astype(int))
         draw2.ellipse([pos[0]-radius, pos[1]-radius, pos[0]+radius, pos[1]+radius], fill=col)
-    st.image(rgb_img, caption="Additive (RGB)", width=250)
+    st.image(img2, caption="Additive (RGB)", use_column_width=True)
 
 # --- グレースケール ---
 st.markdown(
