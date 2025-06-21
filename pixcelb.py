@@ -22,12 +22,12 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
-# Layout: two columns for YMC and RGB
+# Layout: YMC and RGB side by side
 col1, col2 = st.columns(2)
 size = 200
-radius = 40  # smaller circles
+radius = 40
 cx, cy = size // 2, size // 2
-# Define triangle vertices
+# Triangle vertices
 t_side = size - radius*2
 h = t_side * np.sqrt(3) / 2
 v1 = np.array([cx, cy - h/2])
@@ -36,10 +36,8 @@ v3 = np.array([cx + t_side/2, cy + h/2])
 center = np.array([cx, cy])
 
 with col1:
-    # Slider under image with larger label
-    st.markdown("<span style='font-size:18px;'>YMC Mix</span>", unsafe_allow_html=True)
-    t = st.slider("", 0.0, 1.0, 0.0, step=0.01, key="ymc_mix")
-    # Create subtractive mixing on white
+    # Create YMC mixing image
+    t = st.session_state.get("ymc_mix", 0.0)
     img_y = Image.new("RGB", (size, size), "white")
     img_m = Image.new("RGB", (size, size), "white")
     img_c = Image.new("RGB", (size, size), "white")
@@ -52,12 +50,13 @@ with col1:
     mix1 = ImageChops.multiply(img_y, img_m)
     ymc_mix = ImageChops.multiply(mix1, img_c)
     st.image(ymc_mix, caption="Subtractive (YMC)", use_container_width=True)
+    # Slider under image
+    st.markdown("<span style='font-size:18px;'>YMC Mix</span>", unsafe_allow_html=True)
+    st.slider("", 0.0, 1.0, 0.0, step=0.01, key="ymc_mix")
 
 with col2:
-    # Slider under image with larger label
-    st.markdown("<span style='font-size:18px;'>RGB Mix</span>", unsafe_allow_html=True)
-    t2 = st.slider("", 0.0, 1.0, 0.0, step=0.01, key="rgb_mix")
-    # Create additive mixing on black
+    # Create RGB mixing image
+    t2 = st.session_state.get("rgb_mix", 0.0)
     img_r = Image.new("RGB", (size, size), "black")
     img_g = Image.new("RGB", (size, size), "black")
     img_b = Image.new("RGB", (size, size), "black")
@@ -70,12 +69,16 @@ with col2:
     add1 = ImageChops.add(img_r, img_g, scale=1.0, offset=0)
     rgb_mix = ImageChops.add(add1, img_b, scale=1.0, offset=0)
     st.image(rgb_mix, caption="Additive (RGB)", use_container_width=True)
+    # Slider under image
+    st.markdown("<span style='font-size:18px;'>RGB Mix</span>", unsafe_allow_html=True)
+    st.slider("", 0.0, 1.0, 0.0, step=0.01, key="rgb_mix")
 
 # --- Grayscale ---
+# Match font size of heading to Color Mixing Demonstration
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:20px;'>
-      <strong>階調（グレースケール）</strong>
+    <div style='background-color:#f0f0f0; padding:10px; border-radius:8px;'>
+      <h2 style='text-align:center; margin:0;'>階調（グレースケール）</h2>
     </div>
     """, unsafe_allow_html=True
 )
@@ -104,8 +107,8 @@ st.markdown("<hr style='border:1px solid #ccc; margin:20px 0;'>", unsafe_allow_h
 # --- RGB Depth ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:20px;'>
-      <strong>階調（RGB）</strong>
+    <div style='background-color:#f0f0f0; padding:10px; border-radius:8px;'>
+      <h2 style='text-align:center; margin:0;'>階調（RGB）</h2>
     </div>
     """, unsafe_allow_html=True
 )
