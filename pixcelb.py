@@ -67,8 +67,11 @@ st.image(g_img, use_container_width=True)
 # --- RGB Depth ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:30px;'>
       <strong>階調（RGB）</strong>
+    </div>
+    """, unsafe_allow_html=True
+)/strong>
     </div>
     """, unsafe_allow_html=True
 )
