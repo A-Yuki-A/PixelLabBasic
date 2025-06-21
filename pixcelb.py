@@ -50,8 +50,8 @@ with col1:
     mix1 = ImageChops.multiply(img_y, img_m)
     ymc_mix = ImageChops.multiply(mix1, img_c)
     st.image(ymc_mix, caption="Subtractive (YMC)", use_container_width=True)
-    # Slider under image
-    st.markdown("<span style='font-size:18px;'>YMC Mix</span>", unsafe_allow_html=True)
+    # Slider under image with updated label
+    st.markdown("<span style='font-size:18px;'>YMC Mix（色の三原色）</span>", unsafe_allow_html=True)
     st.slider("", 0.0, 1.0, 0.0, step=0.01, key="ymc_mix")
 
 with col2:
@@ -69,9 +69,22 @@ with col2:
     add1 = ImageChops.add(img_r, img_g, scale=1.0, offset=0)
     rgb_mix = ImageChops.add(add1, img_b, scale=1.0, offset=0)
     st.image(rgb_mix, caption="Additive (RGB)", use_container_width=True)
-    # Slider under image
-    st.markdown("<span style='font-size:18px;'>RGB Mix</span>", unsafe_allow_html=True)
+    # Slider under image with updated label
+    st.markdown("<span style='font-size:18px;'>RGB Mix（光の三原色）</span>", unsafe_allow_html=True)
     st.slider("", 0.0, 1.0, 0.0, step=0.01, key="rgb_mix")
+
+# --- Color Mixing explanation ---
+st.markdown(
+    """
+    <div style='background-color:#fff4e5; padding:10px; border-radius:4px; margin-top:10px;'>
+      <strong>特徴：</strong><br>
+      ・YMC（色の三原色）は減法混色です。<br>
+      &nbsp;&nbsp;白い背景に色を重ねると暗くなり、重なり部分ほど黒に近づきます。<br>
+      ・RGB（光の三原色）は加法混色です。<br>
+      &nbsp;&nbsp;黒い背景に光の3色を重ねると明るくなり、重なり部分ほど白に近づきます。<br>
+    </div>
+    """, unsafe_allow_html=True
+)
 
 # --- Grayscale ---
 # Revert header to original font size
