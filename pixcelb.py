@@ -16,7 +16,8 @@ st.markdown(
 
 # 修正箇所: スライダーラベルを大きなフォントで表示
 st.markdown("<span style='font-size:18px;'>グレースケールのbit数を操作してください。</span>", unsafe_allow_html=True)
-g_bits = st.slider("", 1, 8, 4, step=1)
+# スライダーにkeyを追加してIDの重複を防止
+g_bits = st.slider("", 1, 8, 4, step=1, key="gray_slider")
 # グレースケールの総色数 = 2^bit数
 g_levels = 2 ** g_bits
 # 基本情報表示
@@ -59,7 +60,8 @@ st.markdown(
 
 # 修正箇所: スライダーラベルを大きなフォントで表示
 st.markdown("<span style='font-size:18px;'>RGB各色のbit数を操作してください。</span>", unsafe_allow_html=True)
-rgb_bits = st.slider("", 1, 8, 4, step=1)
+# スライダーにkeyを追加してIDの重複を防止
+rgb_bits = st.slider("", 1, 8, 4, step=1, key="rgb_slider")
 # 色ごとの段階数
 t_levels = 2 ** rgb_bits
 # 1画素で使う合計bit数
