@@ -9,7 +9,7 @@ st.markdown(
     """
     <style>
       /* 本文フォント */
-      * { font-size:20px !important; }
+      * { font-size:18px !important; }
       /* タイトルとセクション見出し */
       h1, h2 { font-size:30px !important; }
     </style>
