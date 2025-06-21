@@ -17,8 +17,7 @@ st.markdown(
       .stMarkdown p, .stWrite > p { line-height:1.2 !important; margin-bottom:4px !important; }
     </style>
     """, unsafe_allow_html=True
-)
-)
+
 
 # --- ツール名 ---
 st.title("Color Depth Explorer")
