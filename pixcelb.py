@@ -60,6 +60,11 @@ with col2:
     st.image(img2, use_container_width=True)
 
 # グレースケール階調
+st.markdown("""
+<div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:20px;'>
+  <strong>階調（グレースケール）</strong>
+</div>
+""", unsafe_allow_html=True)
 g_bits = st.slider("グレースケールのbit数", 1, 8, 4, key="gray_bits")
 g_levels = 2 ** g_bits
 st.write(f"1画素あたりのbit数: {g_bits} bit")
@@ -70,6 +75,11 @@ g_img = Image.fromarray(g,'L').resize((600,100),Image.NEAREST)
 st.image(g_img, use_container_width=True)
 
 # RGB階調
+st.markdown("""
+<div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:20px;'>
+  <strong>階調（RGB）</strong>
+</div>
+""", unsafe_allow_html=True)
 rgb_bits = st.slider("RGB各色のbit数", 1, 8, 4, key="rgb_bits")
 levels = 2 ** rgb_bits
 pixel_bits = rgb_bits * 3
