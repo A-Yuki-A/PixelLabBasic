@@ -11,7 +11,8 @@ st.markdown(
       /* 本文フォント */
       * { font-size:18px !important; }
       /* ツール名とセクション見出し */
-      h1, h2 { font-size:30px !important; }
+      h1 { font-size:35px !important; }
+      h2 { font-size:30px !important; }
     </style>
     """, unsafe_allow_html=True
 )
