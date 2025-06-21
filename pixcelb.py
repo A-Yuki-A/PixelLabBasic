@@ -1,6 +1,6 @@
 import streamlit as st
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageDraw
 import io
 import base64
 
@@ -8,10 +8,56 @@ import base64
 st.markdown(
     """
     <h1 style='text-align:center; color:#4B8BBE; margin-bottom:20px;'>
-      ColorFusion Explorer
+      Color Depth Explorer
     </h1>
     """, unsafe_allow_html=True
 )
+
+# --- Color Mixing Demonstration ---
+st.markdown(
+    """
+    <div style='background-color:#e8f4f8; padding:10px; border-radius:8px;'>
+      <h2 style='text-align:center; margin:0;'>Color Mixing Demonstration</h2>
+    </div>
+    """, unsafe_allow_html=True
+)
+# Create YMC (subtractive) on white background
+size = 200
+offset = 40
+radius = 80
+white_bg = Image.new("RGBA", (size*2 + offset, size), (255,255,255,255))
+d = ImageDraw.Draw(white_bg)
+colors_ymc = [(255,255,0,180),(255,0,255,180),(0,255,255,180)]  # Y, M, C
+positions = [(radius, radius),(radius+offset, radius),(radius+offset*2, radius)]
+for fill, pos in zip(colors_ymc, positions):
+    d.ellipse([pos[0]-radius, pos[1]-radius, pos[0]+radius, pos[1]+radius], fill=fill)
+
+# Create RGB (additive) on black background
+black_bg = Image.new("RGBA", (size*2 + offset, size), (0,0,0,255))
+d2 = ImageDraw.Draw(black_bg)
+colors_rgb = [(255,0,0,180),(0,255,0,180),(0,0,255,180)]  # R, G, B
+for fill, pos in zip(colors_rgb, positions):
+    d2.ellipse([pos[0]-radius, pos[1]-radius, pos[0]+radius, pos[1]+radius], fill=fill)
+
+# Combine side by side
+combined = Image.new("RGBA", (white_bg.width, white_bg.height*2 + 20), (255,255,255,255))
+combined.paste(white_bg, (0,0))
+combined.paste(black_bg, (0, white_bg.height + 20))
+
+# Render images with captions
+buf = io.BytesIO()
+combined.save(buf, format="PNG")
+b64 = base64.b64encode(buf.getvalue()).decode()
+html = f"""
+<div style='text-align:center;'>
+  <img src='data:image/png;base64,{b64}' style='border:1px solid #ccc;'/>
+  <div style='display:flex; justify-content:space-around; margin-top:5px;'>
+    <span>Subtractive (YMC) on White</span>
+    <span>Additive (RGB) on Black</span>
+  </div>
+</div>
+"""
+st.markdown(html, unsafe_allow_html=True)
 
 # --- グレースケール ---
 # タイトル背景を淡いグレーにし、フォントサイズを大きく設定
@@ -23,7 +69,7 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
-# 修正箇所: スライダーラベルを大きなフォントで表示
+# スライダーラベルを大きなフォントで表示
 st.markdown("<span style='font-size:18px;'>グレースケールのbit数を操作してください。</span>", unsafe_allow_html=True)
 # スライダーにkeyを追加してIDの重複を防止
 g_bits = st.slider("", 1, 8, 4, step=1, key="gray_slider")
@@ -67,7 +113,7 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
-# 修正箇所: スライダーラベルを大きなフォントで表示
+# スライダーラベルを大きなフォントで表示
 st.markdown("<span style='font-size:18px;'>RGB各色のbit数を操作してください。</span>", unsafe_allow_html=True)
 # スライダーにkeyを追加してIDの重複を防止
 rgb_bits = st.slider("", 1, 8, 4, step=1, key="rgb_slider")
