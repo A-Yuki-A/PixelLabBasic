@@ -68,7 +68,7 @@ st.markdown(f"- **1画素あたりのbit数**: R {rgb_bits}bit + G {rgb_bits}bit
 # 常に表示される総色数と説明
 rgb_factors = " × ".join(["2"] * rgb_bits)
 st.markdown(
-    f"**・総色数**: {total_colors:,} 色\n\n"
+    f"- **総色数**: {total_colors:,} 色\n\n"
     f"　各色{rgb_bits}bitなので {rgb_factors} = {t_levels:,}段階（1色につき）  \n"
     f"　３色で表現できる色数は {t_levels:,} × {t_levels:,} × {t_levels:,} = {total_colors:,} 色"
 )
