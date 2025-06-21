@@ -74,11 +74,11 @@ with col2:
     st.slider("", 0.0, 1.0, 0.0, step=0.01, key="rgb_mix")
 
 # --- Grayscale ---
-# Match font size of heading to Color Mixing Demonstration
+# Revert header to original font size
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:10px; border-radius:8px;'>
-      <h2 style='text-align:center; margin:0;'>階調（グレースケール）</h2>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:20px;'>
+      <strong>階調（グレースケール）</strong>
     </div>
     """, unsafe_allow_html=True
 )
