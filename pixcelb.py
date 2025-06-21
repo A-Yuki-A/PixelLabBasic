@@ -15,7 +15,7 @@ st.markdown(
       /* 本文フォント */
       * { font-size:18px !important; }
       /* ツール名 */
-      h1 { color: #333333; font-size:35px !important; margin-top:10px !important; }
+      .block-container h1 { color: #333333; font-size:35px !important; margin-top:10px !important; }
       /* セクション見出し */
       h2 { font-size:30px !important; }
       /* 行間調整 */
