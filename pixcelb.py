@@ -16,8 +16,8 @@ st.markdown(
 # --- Interactive Color Mixing Demonstration ---
 st.markdown(
     """
-    <div style='background-color:#e8f4f8; padding:10px; border-radius:8px;'>
-      <h2 style='text-align:center; margin:0;'>Color Mixing Demonstration</h2>
+    <div style='background-color:#e8f4f8; padding:8px; border-radius:4px; font-size:20px; text-align:center;'>
+      <strong>Color Mixing Demonstration</strong>
     </div>
     """, unsafe_allow_html=True
 )
