@@ -9,26 +9,6 @@ st.set_page_config(page_title="Color Depth Explorer", layout="centered")
 st.markdown(
     """
     <style>
-    /* アプリ背景 */
-    [data-testid="stAppViewContainer"] { background-color: #f5f5f5; }
-    /* コンテナ背景 */
-    div.block-container { background-color: #fcfcfc; padding: 1.5rem; border-radius: 10px; }
-    /* 大見出し */
-    h1 { color: #333333; }
-    /* セクション見出し */
-    h2 { background-color: #f0f0f0; padding: 0.4rem; border-left: 4px solid #cccccc; border-radius: 4px; }
-    /* サブ見出し */
-    h3 { background-color: #f0f0f0; padding: 0.3rem; border-left: 4px solid #cccccc; border-radius: 4px; }
-    /* Expanderヘッダー */
-    .stExpanderHeader { background-color: #eeeeee !important; border-radius: 4px; }
-    /* ボタン */
-    button[data-baseweb="button"] { background-color: #e0f7fa !important; color: #000; border: 1px solid #b2ebf2 !important; border-radius: 5px; padding: 0.5rem 1rem; }
-    </style>
-    """, unsafe_allow_html=True
-)
-st.markdown(
-    """
-    <style>
       /* アプリ背景 */
       [data-testid="stAppViewContainer"] { background-color: #f5f5f5; }
       /* コンテナ背景 */
