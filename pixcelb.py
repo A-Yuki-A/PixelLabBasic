@@ -14,17 +14,18 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
-# 修正箇所: スライダーラベルを変更
-g_bits = st.slider("グレースケールのbit数を操作してください。", 1, 8, 4, step=1)
-# グレースケールの段階数 = 2^bit数
+# 修正箇所: スライダーラベルを大きなフォントで表示
+st.markdown("<span style='font-size:18px;'>グレースケールのbit数を操作してください。</span>", unsafe_allow_html=True)
+g_bits = st.slider("", 1, 8, 4, step=1)
+# グレースケールの総色数 = 2^bit数
 g_levels = 2 ** g_bits
 # 基本情報表示
 st.markdown(f"- **1画素あたりのbit数**: {g_bits} bit")
-st.markdown(f"- **色の段階数**: {g_levels:,} 段階")
-# 例示：bit数に合わせた掛け算説明、先頭にスペースを1マス
+st.markdown(f"- **総色数**: {g_levels:,} 色")
+# 例示：bit数に合わせた掛け算説明、先頭にスペースと“・”を1マス
 factors = " × ".join(["2"] * g_bits)
 st.markdown(
-    f"　{g_bits}bitなので {factors} = {g_levels:,}色"
+    f"　・{g_bits}bitなので {factors} = {g_levels:,}色"
 )
 
 # グレースケール画像生成
@@ -56,22 +57,23 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
-# 修正箇所: スライダーラベルを変更
-rgb_bits = st.slider("RGB各色のbit数を操作してください。", 1, 8, 4, step=1)
+# 修正箇所: スライダーラベルを大きなフォントで表示
+st.markdown("<span style='font-size:18px;'>RGB各色のbit数を操作してください。</span>", unsafe_allow_html=True)
+rgb_bits = st.slider("", 1, 8, 4, step=1)
 # 色ごとの段階数
 t_levels = 2 ** rgb_bits
 # 1画素で使う合計bit数
 pixel_bits = rgb_bits * 3
-# 総色数
+# RGBの総色数
 total_colors = t_levels ** 3
 # 基本情報表示
 st.markdown(f"- **1画素あたりのbit数**: R {rgb_bits}bit + G {rgb_bits}bit + B {rgb_bits}bit = {pixel_bits}bit")
 
-# 常に表示される総色数と説明、総色数を太文字に、先頭に■を追加
+# 常に表示される総色数と説明、総色数を太文字に、先頭に“・”を追加
 rgb_factors = " × ".join(["2"] * rgb_bits)
 st.markdown(
-    f"■ **総色数**: {total_colors:,} 色\n\n"
-    f"　各色{rgb_bits}bitなので {rgb_factors} = {t_levels:,}段階（1色につき）  \n"
+    f"・ **総色数**: {total_colors:,} 色\n\n"
+    f"　各色{rgb_bits}bitなので {rgb_factors} = {t_levels:,}色（1色につき）  \n"
     f"　全色で {t_levels:,} × {t_levels:,} × {t_levels:,} = {total_colors:,} 色"
 )
 
