@@ -30,7 +30,7 @@ st.title("Color Depth Explorer")
 # --- Color Mixing Demonstration ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:35px;'>
       <strong>Color Mixing Demonstration</strong>
     </div>
     """, unsafe_allow_html=True
@@ -108,7 +108,7 @@ for comp, col in zip(['R','G','B'], [(255,0,0),(0,255,0),(0,0,255)]):
 # --- 確認問題 ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:30px;'>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:35px;'>
       <strong>確認問題</strong>
     </div>
     """, unsafe_allow_html=True
