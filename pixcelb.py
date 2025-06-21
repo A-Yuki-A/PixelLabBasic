@@ -14,7 +14,7 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
-g_bits = st.slider("グレースケールのbit数", 1, 8, 4, step=1)
+g_bits = st.slider("グレースケールのbit数を操作してください。", 1, 8, 4, step=1)
 # グレースケールの段階数 = 2^bit数
 g_levels = 2 ** g_bits
 # 基本情報表示
@@ -55,7 +55,7 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
-rgb_bits = st.slider("RGB各色のbit数", 1, 8, 4, step=1)
+rgb_bits = st.slider("RGB各色のbit数を操作してください。", 1, 8, 4, step=1)
 # 色ごとの段階数
 t_levels = 2 ** rgb_bits
 # 1画素で使う合計bit数
