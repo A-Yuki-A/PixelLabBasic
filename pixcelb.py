@@ -8,8 +8,13 @@ import base64
 st.markdown(
     """
     <style>
+      /* 本文フォント */
       * {
-        font-size: 11px !important;
+        font-size: 15px !important;
+      }
+      /* タイトルフォント */
+      h1 {
+        font-size: 22px !important;
       }
     </style>
     """, unsafe_allow_html=True
