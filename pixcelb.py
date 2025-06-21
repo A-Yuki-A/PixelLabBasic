@@ -4,6 +4,21 @@ from PIL import Image, ImageDraw, ImageChops
 import io
 import base64
 
+# --- Page Style ---
+st.markdown(
+    """
+    <style>
+      .stApp {
+        background-color: #f7f7f7;
+      }
+      div.block-container {
+        background-color: #f7f7f7;
+        padding: 2rem;
+      }
+    </style>
+    """, unsafe_allow_html=True
+)
+
 # --- Tool Name ---
 st.markdown(
     """
