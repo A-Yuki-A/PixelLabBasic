@@ -51,7 +51,7 @@ v3 = np.array([cx + t_side/2, cy + h/2])
 center = np.array([cx, cy])
 
 with col1:
-    t = st.slider("YMC Mix（色の三原色）", 0.0, 1.0, 0.0, step=0.01, key="ymc_mix")
+    t = st.slider("YMC Mix", 0.0, 1.0, 0.0, step=0.01, key="ymc_mix")
     img_y = Image.new("RGB", (size, size), "white")
     img_m = Image.new("RGB", (size, size), "white")
     img_c = Image.new("RGB", (size, size), "white")
@@ -66,7 +66,7 @@ with col1:
     st.image(ymc_mix, caption="Subtractive (YMC)", use_container_width=True)
 
 with col2:
-    t2 = st.slider("RGB Mix（光の三原色）", 0.0, 1.0, 0.0, step=0.01, key="rgb_mix")
+    t2 = st.slider("RGB Mix", 0.0, 1.0, 0.0, step=0.01, key="rgb_mix")
     img_r = Image.new("RGB", (size, size), "black")
     img_g = Image.new("RGB", (size, size), "black")
     img_b = Image.new("RGB", (size, size), "black")
@@ -83,8 +83,8 @@ with col2:
 # --- Color Mixing explanation ---
 st.markdown(
     """
-    <div style='background-color:#fff4e5; padding:10px; border-radius:4px; margin-top:10px; margin-bottom:20px;'>
-      <strong>特徴：</strong><br>
+    <div style='background-color:#ffffff; padding:10px; border-radius:4px; margin-top:10px; margin-bottom:20px;'>
+      
       ・YMC（色の三原色、<em>減法混色</em>）<br>
       &nbsp;&nbsp;白い背景にY、M、Cを重ねると暗くなり、重なり部分ほど黒に近づきます。<br>
       ・RGB（光の三原色、<em>加法混色</em>）<br>
