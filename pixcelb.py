@@ -76,12 +76,12 @@ with col2:
 # --- Color Mixing explanation ---
 st.markdown(
     """
-    <div style='background-color:#fff4e5; padding:10px; border-radius:4px; margin-top:10px;'>
+    <div style='background-color:#fff4e5; padding:10px; border-radius:4px; margin-top:10px; margin-bottom:20px;'>
       <strong>特徴：</strong><br>
-      ・YMC（色の三原色）は減法混色です。<br>
-      &nbsp;&nbsp;白い背景に色を重ねると暗くなり、重なり部分ほど黒に近づきます。<br>
-      ・RGB（光の三原色）は加法混色です。<br>
-      &nbsp;&nbsp;黒い背景に光の3色を重ねると明るくなり、重なり部分ほど白に近づきます。<br>
+      ・YMC（色の三原色、<em>減法混色</em>）<br>
+      &nbsp;&nbsp;白い背景にY、M、Cを重ねると暗くなり、重なり部分ほど黒に近づきます。<br>
+      ・RGB（光の三原色、<em>加法混色</em>）<br>
+      &nbsp;&nbsp;黒い背景にR、G、Bを重ねると明るくなり、重なり部分ほど白に近づきます。<br>
     </div>
     """, unsafe_allow_html=True
 )
