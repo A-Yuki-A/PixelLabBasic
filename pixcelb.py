@@ -44,7 +44,7 @@ with col1:
     for vert, col in zip([v1, v2, v3], colors):
         pos = tuple((vert * (1-t) + center * t).astype(int))
         draw.ellipse([pos[0]-radius, pos[1]-radius, pos[0]+radius, pos[1]+radius], fill=col)
-    st.image(img, caption="Subtractive (YMC)", use_column_width=True)
+    st.image(img, caption="Subtractive (YMC)", use_container_width=True)
 
 with col2:
     t2 = st.slider("RGB Mix", 0.0, 1.0, 0.0, step=0.01, key="rgb_mix")
@@ -55,7 +55,7 @@ with col2:
     for vert, col in zip([v1, v2, v3], cols2):
         pos = tuple((vert * (1-t2) + center * t2).astype(int))
         draw2.ellipse([pos[0]-radius, pos[1]-radius, pos[0]+radius, pos[1]+radius], fill=col)
-    st.image(img2, caption="Additive (RGB)", use_column_width=True)
+    st.image(img2, caption="Additive (RGB)", use_container_width=True)
 
 # --- グレースケール ---
 st.markdown(
