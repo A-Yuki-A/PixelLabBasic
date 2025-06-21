@@ -10,7 +10,7 @@ st.markdown(
     <style>
       /* 本文フォント */
       * { font-size:18px !important; }
-      /* タイトルとセクション見出し */
+      /* ツール名とセクション見出し */
       h1, h2 { font-size:30px !important; }
     </style>
     """, unsafe_allow_html=True
@@ -19,8 +19,14 @@ st.markdown(
 # --- ツール名 ---
 st.title("Color Depth Explorer")
 
-# --- Color Mixing ---
-st.header("Color Mixing Demonstration")
+# --- Color Mixing Demonstration ---
+st.markdown(
+    """
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
+      <strong>Color Mixing Demonstration</strong>
+    </div>
+    """, unsafe_allow_html=True
+)
 col1, col2 = st.columns(2)
 size, radius = 200, 40
 cx, cy = size // 2, size // 2
@@ -52,28 +58,28 @@ with col2:
     mix = ImageChops.add(ImageChops.add(imgs[0], imgs[1]), imgs[2])
     st.image(mix, use_container_width=True)
 
-# --- Grayscale Depth ---
+# --- 階調（グレースケール） ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:30px;'>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
       <strong>階調（グレースケール）</strong>
     </div>
     """, unsafe_allow_html=True
 )
 g_bits = st.slider("グレースケールのbit数", 1, 8, 4, key="gray_bits")
 g_levels = 2 ** g_bits
-st.subheader(f"1画素あたりのbit数: {g_bits} bit")
-st.subheader(f"総色数: {g_levels:,} 色")
+st.write(f"1画素あたりのbit数: {g_bits} bit")
+st.write(f"総色数: {g_levels:,} 色")
 factors = " × ".join(["2"] * g_bits)
-st.subheader(f"{g_bits}bitなので {factors} = {g_levels:,} 色（1色につき）")
+st.write(f"{g_bits}bitなので {factors} = {g_levels:,} 色（1色につき）")
 g = np.tile(np.linspace(0,255,g_levels,dtype=np.uint8),(50,1))
 g_img = Image.fromarray(g, 'L').resize((600,100), Image.NEAREST)
 st.image(g_img, use_container_width=True)
 
-# --- RGB Depth ---
+# --- 階調（RGB） ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:30px;'>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
       <strong>階調（RGB）</strong>
     </div>
     """, unsafe_allow_html=True
@@ -82,11 +88,11 @@ rgb_bits = st.slider("RGB各色のbit数", 1, 8, 4, key="rgb_bits")
 levels = 2 ** rgb_bits
 pixel_bits = rgb_bits * 3
 total_colors = levels ** 3
-st.subheader(f"1画素あたりのbit数: R {rgb_bits}bit + G {rgb_bits}bit + B {rgb_bits}bit = {pixel_bits}bit")
-st.subheader(f"総色数: {total_colors:,} 色")
-st.subheader(f"各色{rgb_bits}bitなので {' × '.join(['2'] * rgb_bits)} = {levels:,} 色（1色につき）")
-st.subheader(f"全色で {levels:,} × {levels:,} × {levels:,} = {total_colors:,} 色")
-for comp, color in zip(['R','G','B'], [(255,0,0),(0,255,0),(0,0,255)]):
+st.write(f"1画素あたりのbit数: R {rgb_bits}bit + G {rgb_bits}bit + B {rgb_bits}bit = {pixel_bits}bit")
+st.write(f"総色数: {total_colors:,} 色")
+st.write(f"各色{rgb_bits}bitなので {' × '.join(['2'] * rgb_bits)} = {levels:,} 色（1色につき）")
+st.write(f"全色で {levels:,} × {levels:,} × {levels:,} = {total_colors:,} 色")
+for comp, col in zip(['R','G','B'], [(255,0,0),(0,255,0),(0,0,255)]):
     arr = np.zeros((50,levels,3), dtype=np.uint8)
     arr[:,:,{'R':0,'G':1,'B':2}[comp]] = np.linspace(0,255,levels,dtype=np.uint8)
-    st.image(Image.fromarray(arr).resize((600,100),Image.NEAREST), use_container_width=True)
+    st.image(Image.fromarray(arr).resize((600,100), Image.NEAREST), use_container_width=True)
