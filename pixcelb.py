@@ -53,7 +53,13 @@ with col2:
     st.image(mix, use_container_width=True)
 
 # --- Grayscale Depth ---
-st.header("階調（グレースケール）")
+st.markdown(
+    """
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:30px;'>
+      <strong>階調（グレースケール）</strong>
+    </div>
+    """, unsafe_allow_html=True
+)
 g_bits = st.slider("グレースケールのbit数", 1, 8, 4, key="gray_bits")
 g_levels = 2 ** g_bits
 st.subheader(f"1画素あたりのbit数: {g_bits} bit")
