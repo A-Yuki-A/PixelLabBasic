@@ -23,7 +23,7 @@ st.markdown(f"- **色の段階数**: {g_levels:,} 段階")
 # 例示：各bit数の場合の掛け算説明
 factors = " × ".join(["2"] * g_bits)
 st.markdown(
-    f"　{g_bits}bitなので {factors} = {g_levels:,}段階"
+    f"　 {g_bits}bitなので {factors} = {g_levels:,}段階"
 )
 
 # グレースケール画像生成
