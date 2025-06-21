@@ -13,8 +13,11 @@ st.markdown(
       /* ツール名とセクション見出し */
       h1 { font-size:35px !important; }
       h2 { font-size:30px !important; }
+      /* 行間調整 */
+      .stMarkdown p, .stWrite > p { line-height:1.2 !important; margin-bottom:4px !important; }
     </style>
     """, unsafe_allow_html=True
+)
 )
 
 # --- ツール名 ---
