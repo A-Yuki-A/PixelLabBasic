@@ -101,7 +101,13 @@ for comp, col in zip(['R','G','B'], [(255,0,0),(0,255,0),(0,0,255)]):
     st.image(Image.fromarray(arr).resize((600,100), Image.NEAREST), use_container_width=True)
 
 # --- 確認問題 ---
-st.subheader("確認問題")
+st.markdown(
+    """
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:30px;'>
+      <strong>確認問題</strong>
+    </div>
+    """, unsafe_allow_html=True
+)
 
 # 問1: ビット数と色数の理解
 st.write("**問1:** 各色に割り当てるビット数が異なると、1画素で表現できる色数はどう変化しますか？ サンプルとしてRGB各色をそれぞれ4bitと6bitにしたときの総色数を答えてください。（例: 4bit → 4色段階、6bit → 64段階）")
