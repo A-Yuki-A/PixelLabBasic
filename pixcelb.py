@@ -23,7 +23,7 @@ st.markdown(f"- **色の段階数**: {g_levels:,} 段階")
 # 例示：各bit数の場合の掛け算説明
 factors = " × ".join(["2"] * g_bits)
 st.markdown(
-    f"・{g_bits}bitなので {factors} = {g_levels:,}段階"
+    f"{g_bits}bitなので {factors} = {g_levels:,}段階"
 )
 
 # グレースケール画像生成
@@ -70,7 +70,7 @@ rgb_factors = " × ".join(["2"] * rgb_bits)
 st.markdown(
     f"**・総色数**: {total_colors:,} 色\n\n"
     f"　各色{rgb_bits}bitなので {rgb_factors} = {t_levels:,}段階（1色につき）  \n"
-    f"　全色で {t_levels:,} × {t_levels:,} × {t_levels:,} = {total_colors:,} 色"
+    f"　３色で表現できる色数は {t_levels:,} × {t_levels:,} × {t_levels:,} = {total_colors:,} 色"
 )
 
 # 各色成分画像生成
