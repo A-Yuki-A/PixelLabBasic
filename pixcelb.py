@@ -99,3 +99,19 @@ for comp, col in zip(['R','G','B'], [(255,0,0),(0,255,0),(0,0,255)]):
     arr = np.zeros((50,levels,3), dtype=np.uint8)
     arr[:,:,{'R':0,'G':1,'B':2}[comp]] = np.linspace(0,255,levels,dtype=np.uint8)
     st.image(Image.fromarray(arr).resize((600,100), Image.NEAREST), use_container_width=True)
+
+# --- 確認問題 ---
+st.subheader("確認問題")
+
+# 問1: ビット数と色数の理解
+st.write("**問1:** 各色に割り当てるビット数が異なると、1画素で表現できる色数はどう変化しますか？ サンプルとしてRGB各色をそれぞれ4bitと6bitにしたときの総色数を答えてください。（例: 4bit → 4色段階、6bit → 64段階）")
+with st.expander("解答・解説1"):
+    st.write("4bitの場合: 各色16段階 → 16 × 16 × 16 = 4096色")
+    st.write("6bitの場合: 各色64段階 → 64 × 64 × 64 = 262144色")
+    st.write("ビット数が増えると各色の段階数が2倍ずつ増え、総色数は段階数の3乗で増加します。")
+
+# 問2: RGBの2色混合
+st.write("**問2:** RGBのうち2色を混ぜると何色になりますか？ 例として、RとGを混ぜると何色が表示されるか答えてください。")
+with st.expander("解答・解説2"):
+    st.write("R(赤)とG(緑)を重ねると、加法混色により黄色(R+G)が表示されます。")
+    st.write("同様にG+ B → シアン、B+ R → マゼンタになります。")
