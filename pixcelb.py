@@ -9,13 +9,9 @@ st.markdown(
     """
     <style>
       /* 本文フォント */
-      * {
-        font-size: 15px !important;
-      }
-      /* タイトルフォント */
-      h1 {
-        font-size: 22px !important;
-      }
+      * { font-size:20px !important; }
+      /* タイトルとセクション見出し */
+      h1, h2 { font-size:30px !important; }
     </style>
     """, unsafe_allow_html=True
 )
