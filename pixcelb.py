@@ -66,6 +66,19 @@ with col2:
     mix = ImageChops.add(ImageChops.add(imgs[0], imgs[1]), imgs[2])
     st.image(mix, use_container_width=True)
 
+# --- RGB & YMCの特徴 ---
+
+st.markdown(
+    """
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
+      <strong>RGBとYMCの特徴</strong>
+    </div>
+    """, unsafe_allow_html=True
+)
+st.write("- **RGB (加法混色)**: 光の三原色（赤、緑、青）を重ね合わせて色を作ります。テレビやモニターなど光の表示デバイスで使われます。")
+st.write("- **YMC (減法混色)**: 顔料の三原色（イエロー、マゼンタ、シアン）を重ねて色を作ります。印刷や塗料などインクを使う分野で使われます。")
+st.write("- **用途**: RGBはデジタルディスプレイ、カメラセンサーなどで使用。YMCは印刷、写真フィルム、塗装などで使用。")
+
 # --- 階調（グレースケール） ---
 st.markdown(
     """
