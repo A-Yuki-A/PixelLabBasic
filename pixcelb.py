@@ -128,7 +128,7 @@ st.markdown(
 )
 
 # 問1: ビット数と色数の理解
-st.write("**問1:** 各色に割り当てるビット数が異なると、1画素で表現できる色数はどう変化しますか？ サンプルとしてRGB各色をそれぞれ4bitと6bitにしたときの総色数を答えてください。（例: 4bit → 4色段階、6bit → 64段階）")
+st.write("**問1:** 各色に割り当てるビット数が異なると、1画素で表現できる色数はどう変化しますか？ サンプルとしてRGB各色をそれぞれ4bitと6bitにしたときの総色数を答えてください。（例: 4bit → 16段階、6bit → 64段階）")
 with st.expander("解答・解説1"):
     st.write("4bitの場合: 各色16段階 → 16 × 16 × 16 = 4096色")
     st.write("6bitの場合: 各色64段階 → 64 × 64 × 64 = 262144色")
@@ -138,4 +138,13 @@ with st.expander("解答・解説1"):
 st.write("**問2:** RGBのうち2色を混ぜると何色になりますか？ 例として、RとGを混ぜると何色が表示されるか答えてください。")
 with st.expander("解答・解説2"):
     st.write("R(赤)とG(緑)を重ねると、加法混色により黄色(R+G)が表示されます。")
-    st.write("同様にG+ B → シアン、B+ R → マゼンタになります。")
+    st.write("同様にG+B → シアン、B+R → マゼンタになります。")
+
+# 問3: 色数とビット数の関係（ランダム出題）
+import random
+colors_options = [2**i for i in range(1,9)]  # 2,4,8,...,256
+colors = random.choice(colors_options)
+st.write(f"**問3:** {colors:,} 色を表現するには何ビット必要ですか？")
+with st.expander("解答・解説3"):
+    bits = int(np.log2(colors))
+    st.write(f"{colors}色を表現するには {bits}ビット必要です。")
