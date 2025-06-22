@@ -79,7 +79,7 @@ g_levels = 2 ** g_bits
 st.write(f"1画素あたりのbit数: {g_bits} bit")
 st.write(f"総色数: {g_levels:,} 色")
 factors = " × ".join(["2"] * g_bits)
-st.write(f"{g_bits}bitなので {factors} = {g_levels:,} 色（1色につき）")
+st.write(f"{g_bits}bitなので {factors} = {g_levels:,} 階調（1色につき）")
 g = np.tile(np.linspace(0,255,g_levels,dtype=np.uint8),(50,1))
 g_img = Image.fromarray(g, 'L').resize((600,100), Image.NEAREST)
 st.image(g_img, use_container_width=True)
@@ -98,7 +98,7 @@ pixel_bits = rgb_bits * 3
 total_colors = levels ** 3
 st.write(f"1画素あたりのbit数: R {rgb_bits}bit + G {rgb_bits}bit + B {rgb_bits}bit = {pixel_bits}bit")
 st.write(f"総色数: {total_colors:,} 色")
-st.write(f"各色{rgb_bits}bitなので {' × '.join(['2'] * rgb_bits)} = {levels:,} 色（1色につき）")
+st.write(f"各色{rgb_bits}bitなので {' × '.join(['2'] * rgb_bits)} = {levels:,} 階調（1色につき）")
 st.write(f"RGB3色で {levels:,} × {levels:,} × {levels:,} = {total_colors:,} 色")
 for comp, col in zip(['R','G','B'], [(255,0,0),(0,255,0),(0,0,255)]):
     arr = np.zeros((50,levels,3), dtype=np.uint8)
