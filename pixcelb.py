@@ -146,5 +146,16 @@ colors_options = [2**i for i in range(1,9)]  # 2,4,8,...,256
 colors = random.choice(colors_options)
 st.write(f"**問3:** {colors:,} 色を表現するには何ビット必要ですか？")
 with st.expander("解答・解説3"):
-    bits = int(np.log2(colors))
-    st.write(f"{colors}色を表現するには {bits}ビット必要です。")
+    # ビット数の計算（対数を使わず反復で求める）
+    steps = []
+    count = colors
+    bits = 0
+    while count > 1:
+        steps.append(f"{count} ÷ 2 = {count//2}")
+        count //= 2
+        bits += 1
+    # 計算過程の表示
+    for step in steps:
+        st.write(step)
+    # 結論
+    st.write(f"従って、{colors:,}色を表現するには {bits} ビット必要です。")
