@@ -146,16 +146,13 @@ colors_options = [2**i for i in range(1,9)]  # 2,4,8,...,256
 colors = random.choice(colors_options)
 st.write(f"**問3:** {colors:,} 色を表現するには何ビット必要ですか？")
 with st.expander("解答・解説3"):
-    # ビット数の計算（対数を使わず反復で求める）
-    steps = []
-    count = colors
-    bits = 0
-    while count > 1:
-        steps.append(f"{count} ÷ 2 = {count//2}")
-        count //= 2
+    # 色数が2の何乗かで求める
+    # colors = 2 ** bits という関係から bits = log2(colors)
+    # 対数を使わず、べき乗で求める方法
+    bits = 1
+    while 2 ** bits != colors:
         bits += 1
-    # 計算過程の表示
-    for step in steps:
-        st.write(step)
-    # 結論
+    # 解説表示
+    st.write(f"解説: 色数 {colors} は 2 の {bits} 乗 = {colors} となるので、必要なビット数は {bits} ビットです。")
+    st.write(f"式: 2^{bits} = {colors}")
     st.write(f"従って、{colors:,}色を表現するには {bits} ビット必要です。")
