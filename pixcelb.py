@@ -71,9 +71,7 @@ with col1:
             fill=col
         )
         imgs.append(img)
-    # 減法混色は multiply でシミュレート
     mix = ImageChops.multiply(ImageChops.multiply(imgs[0], imgs[1]), imgs[2])
-    # 白背景とアルファ合成して真っ黒に
     bg = Image.new("RGBA", mix.size, (255, 255, 255, 255))
     mix = Image.alpha_composite(bg, mix).convert("RGB")
     st.image(mix, use_container_width=True)
@@ -122,6 +120,12 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+# ここから追加
+st.write("**階調とは、明るさの段階数を示す指標です。**")
+st.write("- 段階数が多いほど、なめらかなグラデーションが表現できます。")
+st.write("- 段階数が少ないと、階段状の「バンディング」が目立ちやすくなります。")
+st.write("- 例えば、2段階(1bit)では「白と黒」しか表現できませんが、8段階(3bit)では「白～黒」の間に6段階の中間色が入ります。")
+# ここまで追加
 g_bits = st.slider("グレースケールのbit数", 1, 8, 4, key="gray_bits")
 g_levels = 2 ** g_bits
 st.write(f"1画素あたりのbit数: {g_bits} bit")
@@ -164,22 +168,22 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# 問1
-st.write("**問1:** 各色に割り当てるビット数が異なると、1画素で表現できる色数はどう変化しますか？ 例としてRGB各色を4bitと6bitにしたときの総色数を答えてください。")
+# 問1 (旧問2)
+st.write("**問1:** RGBのうち2色を混ぜると何色になりますか？ 例としてRとGを混ぜると何色が表示されますか？")
 with st.expander("解答・解説1"):
-    st.write("4bitの場合: 16 × 16 × 16 = 4096色")
-    st.write("6bitの場合: 64 × 64 × 64 = 262144色")
-
-# 問2
-st.write("**問2:** RGBのうち2色を混ぜると何色になりますか？ 例としてRとGを混ぜると何色が表示されますか？")
-with st.expander("解答・解説2"):
     st.write("加法混色により黄色（R+G）が表示されます。")
 
-# 問3
+# 問2 (旧問3)
 colors = random.choice([2**i for i in range(1,9)])
-st.write(f"**問3:** {colors:,}色を表現するには何ビット必要ですか？")
-with st.expander("解答・解説3"):
+st.write(f"**問2:** {colors:,}色を表現するには何ビット必要ですか？")
+with st.expander("解答・解説2"):
     bits = 1
     while 2 ** bits != colors:
         bits += 1
     st.write(f"2^{bits} = {colors} なので、必要なビット数は {bits} ビットです。")
+
+# 問3 (旧問1)
+st.write("**問3:** 各色に割り当てるビット数が異なると、1画素で表現できる色数はどう変化しますか？ 例としてRGB各色を4bitと6bitにしたときの総色数を答えてください。")
+with st.expander("解答・解説3"):
+    st.write("4bitの場合: 16 × 16 × 16 = 4096色")
+    st.write("6bitの場合: 64 × 64 × 64 = 262144色")
