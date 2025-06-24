@@ -13,7 +13,7 @@ st.markdown(
       /* コンテナ背景 */
       div.block-container { background-color: #fcfcfc; padding: 1.5rem; border-radius: 10px; }
       /* 本文フォントはpタグなどに限定 */
-      body, .stMarkdown p, .stWrite > p { font-size:18px; }
+      body, .stMarkdown p, .stWrite > p { font-size:15px; }
       /* ツール名 */
       .block-container h1 { color: #333333; font-size:35px !important; margin-top:10px !important; }
       /* セクション見出しh2 */
