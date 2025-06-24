@@ -3,6 +3,7 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageChops
 import io
 import base64
+import random
 
 # --- ページ背景とフォント設定 ---
 st.markdown(
@@ -27,6 +28,17 @@ st.markdown(
 # --- ツール名 ---
 st.title("Color Depth Explorer")
 
+# 頂点と円の設定
+size, radius = 200, 40
+cx, cy = size // 2, size // 2
+t_side = size - radius * 2
+h = t_side * np.sqrt(3) / 2
+verts = [
+    np.array([cx, cy - h/2]),
+    np.array([cx - t_side/2, cy + h/2]),
+    np.array([cx + t_side/2, cy + h/2])
+]
+
 # --- Color Mixing Demonstration ---
 st.markdown(
     """
@@ -36,25 +48,27 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 col1, col2 = st.columns(2)
-size, radius = 200, 40
-cx, cy = size // 2, size // 2
-t_side = size - radius * 2
-h = t_side * np.sqrt(3) / 2
-verts = [np.array([cx, cy - h/2]), np.array([cx - t_side/2, cy + h/2]), np.array([cx + t_side/2, cy + h/2])]
 
 with col1:
+    # YMC Mix（減法混色）
     t = st.slider("YMC Mix", 0.0, 1.0, 0.0, key="ymc_mix")
     imgs = []
-    for vert, col in zip(verts, [(255,255,0,180), (255,0,255,180), (0,255,255,180)]):
+    # α を 255 にして円を描画
+    for vert, col in zip(verts, [(255,255,0,255), (255,0,255,255), (0,255,255,255)]):
         img = Image.new("RGBA", (size, size), "white")
         draw = ImageDraw.Draw(img)
         pos = tuple((vert * (1 - t) + np.array([cx, cy]) * t).astype(int))
         draw.ellipse([pos[0]-radius, pos[1]-radius, pos[0]+radius, pos[1]+radius], fill=col)
         imgs.append(img)
+    # ３つの色を multiply
     mix = ImageChops.multiply(ImageChops.multiply(imgs[0], imgs[1]), imgs[2])
+    # 白背景とアルファ合成して真っ黒に
+    bg = Image.new("RGBA", mix.size, (255,255,255,255))
+    mix = Image.alpha_composite(bg, mix).convert("RGB")
     st.image(mix, use_container_width=True)
 
 with col2:
+    # RGB Mix（加法混色）
     t2 = st.slider("RGB Mix", 0.0, 1.0, 0.0, key="rgb_mix")
     imgs = []
     for vert, col in zip(verts, [(255,0,0,180), (0,255,0,180), (0,0,255,180)]):
@@ -67,7 +81,6 @@ with col2:
     st.image(mix, use_container_width=True)
 
 # --- RGB & YMCの特徴 ---
-
 st.markdown(
     """
     <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
@@ -75,11 +88,10 @@ st.markdown(
     </div>
     """, unsafe_allow_html=True
 )
-# 特徴箇条書き: 混色法と用途
-st.write("- **RGB (加法混色)**: 光の三原色（赤、緑、青）を混ぜることで新しい色を作ります。例: 赤＋緑＝黄。主にディスプレイやカメラセンサーなど光を直接表示/取得する機器で使われます。")
-st.write("- **YMC (減法混色)**: 顔料の三原色（イエロー、マゼンタ、シアン）を混ぜることで色を作ります。例: シアン＋マゼンタ＝青。主に印刷や塗料などインクや顔料を使う分野で使われます。")
+st.write("- **RGB (加法混色)**: 光の三原色（赤、緑、青）を混ぜると色が明るくなります。主にディスプレイなど光を使う機器で使われます。")
+st.write("- **YMC (減法混色)**: 顔料の三原色（イエロー、マゼンタ、シアン）を混ぜると色が暗くなります。主に印刷などインクを使う分野で使われます。")
 
-# --- 階調（グレースケール） ---（グレースケール） ---
+# --- 階調（グレースケール） ---
 st.markdown(
     """
     <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
@@ -92,7 +104,7 @@ g_levels = 2 ** g_bits
 st.write(f"1画素あたりのbit数: {g_bits} bit")
 st.write(f"総色数: {g_levels:,} 色")
 factors = " × ".join(["2"] * g_bits)
-st.write(f"{g_bits}bitなので {factors} = {g_levels:,} 階調（1色につき）")
+st.write(f"{g_bits}bitなので {factors} = {g_levels:,} 階調")
 g = np.tile(np.linspace(0,255,g_levels,dtype=np.uint8),(50,1))
 g_img = Image.fromarray(g, 'L').resize((600,100), Image.NEAREST)
 st.image(g_img, use_container_width=True)
@@ -111,7 +123,7 @@ pixel_bits = rgb_bits * 3
 total_colors = levels ** 3
 st.write(f"1画素あたりのbit数: R {rgb_bits}bit + G {rgb_bits}bit + B {rgb_bits}bit = {pixel_bits}bit")
 st.write(f"総色数: {total_colors:,} 色")
-st.write(f"各色{rgb_bits}bitなので {' × '.join(['2'] * rgb_bits)} = {levels:,} 階調（1色につき）")
+st.write(f"各色{rgb_bits}bitなので {' × '.join(['2'] * rgb_bits)} = {levels:,} 階調")
 st.write(f"RGB3色で {levels:,} × {levels:,} × {levels:,} = {total_colors:,} 色")
 for comp, col in zip(['R','G','B'], [(255,0,0),(0,255,0),(0,0,255)]):
     arr = np.zeros((50,levels,3), dtype=np.uint8)
@@ -127,32 +139,23 @@ st.markdown(
     """, unsafe_allow_html=True
 )
 
-# 問1: ビット数と色数の理解
-st.write("**問1:** 各色に割り当てるビット数が異なると、1画素で表現できる色数はどう変化しますか？ サンプルとしてRGB各色をそれぞれ4bitと6bitにしたときの総色数を答えてください。（例: 4bit → 16段階、6bit → 64段階）")
+# 問1
+st.write("**問1:** RGB各色をそれぞれ4bitと6bitにしたときの総色数を答えてください。")
 with st.expander("解答・解説1"):
-    st.write("4bitの場合: 各色16段階 → 16 × 16 × 16 = 4096色")
-    st.write("6bitの場合: 各色64段階 → 64 × 64 × 64 = 262144色")
-    st.write("ビット数が増えると各色の段階数が2倍ずつ増え、総色数は段階数の3乗で増加します。")
+    st.write("4bitの場合: 16 × 16 × 16 = 4096色")
+    st.write("6bitの場合: 64 × 64 × 64 = 262144色")
 
-# 問2: RGBの2色混合
-st.write("**問2:** RGBのうち2色を混ぜると何色になりますか？ 例として、RとGを混ぜると何色が表示されるか答えてください。")
+# 問2
+st.write("**問2:** RとGを混ぜると何色？")
 with st.expander("解答・解説2"):
-    st.write("R(赤)とG(緑)を重ねると、加法混色により黄色(R+G)が表示されます。")
-    st.write("同様にG+B → シアン、B+R → マゼンタになります。")
+    st.write("加法混色で黄色になります。")
 
-# 問3: 色数とビット数の関係（ランダム出題）
-import random
-colors_options = [2**i for i in range(1,9)]  # 2,4,8,...,256
+# 問3
+colors_options = [2**i for i in range(1,9)]
 colors = random.choice(colors_options)
 st.write(f"**問3:** {colors:,} 色を表現するには何ビット必要ですか？")
 with st.expander("解答・解説3"):
-    # 色数が2の何乗かで求める
-    # colors = 2 ** bits という関係から bits = log2(colors)
-    # 対数を使わず、べき乗で求める方法
     bits = 1
     while 2 ** bits != colors:
         bits += 1
-    # 解説表示
-    st.write(f"解説: 色数 {colors} は 2 の {bits} 乗 = {colors} となるので、必要なビット数は {bits} ビットです。")
-    st.write(f"式: 2^{bits} = {colors}")
-    st.write(f"従って、{colors:,}色を表現するには {bits} ビット必要です。")
+    st.write(f"2^{bits} = {colors} なので、{bits}ビット必要です。")
