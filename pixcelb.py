@@ -8,11 +8,17 @@ st.set_page_config(page_title="Color Depth Explorer", layout="centered")
 st.markdown(
     """
     <style>
+      /* アプリ背景 */
       [data-testid="stAppViewContainer"] { background-color: #f5f5f5; }
+      /* コンテナ背景 */
       div.block-container { background-color: #fcfcfc; padding: 1.5rem; border-radius: 10px; }
-      * { font-size:18px !important; }
+      /* 本文フォントはpタグなどに限定 */
+      body, .stMarkdown p, .stWrite > p { font-size:18px; }
+      /* ツール名 */
       .block-container h1 { color: #333333; font-size:35px !important; margin-top:10px !important; }
+      /* セクション見出しh2 */
       h2 { font-size:30px !important; }
+      /* 行間調整 */
       .stMarkdown p, .stWrite > p { line-height:1.2 !important; margin-bottom:4px !important; }
     </style>
     """,
