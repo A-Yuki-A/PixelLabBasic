@@ -14,6 +14,8 @@ st.markdown(
       div.block-container { background-color: #fcfcfc; padding: 1.5rem; border-radius: 10px; }
       /* 本文フォントはpタグなどに限定 */
       body, .stMarkdown p, .stWrite > p { font-size:15px; }
+      /* スライダーのラベル部分（bit数タイトル）を大きく */
+      .stSlider label, .stSlider span { font-size:20px !important; }
       /* ツール名 */
       .block-container h1 { color: #333333; font-size:35px !important; margin-top:10px !important; }
       /* セクション見出しh2 */
@@ -34,19 +36,14 @@ cx, cy = size // 2, size // 2
 t_side = size - radius * 2
 h = t_side * np.sqrt(3) / 2
 
-# 元の三角形の頂点
+# 元の三角形の頂点をやや中央寄せ
 verts = [
     np.array([cx, cy - h/2]),
     np.array([cx - t_side/2, cy + h/2]),
     np.array([cx + t_side/2, cy + h/2])
 ]
-
-# 頂点を中心に20%寄せる（中央寄せを強調）
 scale = 0.8
-verts = [
-    (v - np.array([cx, cy])) * scale + np.array([cx, cy])
-    for v in verts
-]
+verts = [(v - np.array([cx, cy])) * scale + np.array([cx, cy]) for v in verts]
 
 # --- Color Mixing Demonstration ---
 st.markdown(
@@ -118,18 +115,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-st.markdown("<div style='margin-top:8px;'></div>", unsafe_allow_html=True)
-st.markdown(
-    """
-    <div style='line-height:1.1;'>
-      <p><strong>階調とは、明るさの段階数を示す指標です。</strong></p>
-      <p>段階数が多いほど、なめらかなグラデーションが表現できます。</p>
-      <p>段階数が少ないと、はっきりした階段状の表示になります。</p>
-      <p>例えば、2段階(1bit)では「白と黒」しか表現できませんが、8段階(3bit)では「白～黒」の間に6段階の中間色が入ります。</p>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+# グレースケールbit数スライダー
 g_bits = st.slider("グレースケールのbit数", 1, 8, 4, key="gray_bits")
 g_levels = 2 ** g_bits
 st.write(f"1画素あたりのbit数: {g_bits} bit")
@@ -149,6 +135,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+# RGB各色bit数スライダー
 rgb_bits = st.slider("RGB各色のbit数", 1, 8, 4, key="rgb_bits")
 levels = 2 ** rgb_bits
 pixel_bits = rgb_bits * 3
@@ -183,7 +170,7 @@ with st.expander("解答・解説2"):
         bits += 1
     st.write(f"2^{bits} = {colors} なので、必要なビット数は {bits} ビットです。")
 
-st.write("**問3:** 各色に割り当てるビット数が異なると、1画素で表現できる色数はどう変化しますか？ 例としてRGB各色を4bitと6bitにしたときの総色数を答えてください。")
+st.write("**問3:** 각色に割り当てるビット数が異なると、1画素で表現できる色数はどう変化しますか？ 例としてRGB各色を4bitと6bitにしたときの総色数を答えてください。")
 with st.expander("解答・解説3"):
     st.write("4bitの場合: 16 × 16 × 16 = 4096色")
     st.write("6bitの場合: 64 × 64 × 64 = 262144色")
