@@ -6,20 +6,15 @@ import base64
 import random
 
 # --- ページ背景とフォント設定 ---
+st.set_page_config(page_title="Color Depth Explorer", layout="centered")
 st.markdown(
     """
     <style>
-      /* アプリ背景 */
-      [data-testid=\"stAppViewContainer\"] { background-color: #f5f5f5; }
-      /* コンテナ背景 */
+      [data-testid="stAppViewContainer"] { background-color: #f5f5f5; }
       div.block-container { background-color: #fcfcfc; padding: 1.5rem; border-radius: 10px; }
-      /* 本文フォント */
       * { font-size:18px !important; }
-      /* ツール名 */
       .block-container h1 { color: #333333; font-size:35px !important; margin-top:10px !important; }
-      /* セクション見出し */
       h2 { font-size:30px !important; }
-      /* 行間調整 */
       .stMarkdown p, .stWrite > p { line-height:1.2 !important; margin-bottom:4px !important; }
     </style>
     """,
@@ -52,16 +47,11 @@ st.markdown(
 col1, col2 = st.columns(2)
 
 with col1:
-    # YMC Mix（減法混色）
     t = st.slider("YMC Mix", 0.0, 1.0, 0.0, key="ymc_mix")
     imgs = []
     for vert, col in zip(
         verts,
-        [
-            (255, 255,   0, 255),   # Yellow
-            (255,   0, 255, 255),   # Magenta
-            (  0, 255, 255, 255)    # Cyan
-        ]
+        [(255, 255, 0, 255), (255, 0, 255, 255), (0, 255, 255, 255)]
     ):
         img = Image.new("RGBA", (size, size), (255, 255, 255, 255))
         draw = ImageDraw.Draw(img)
@@ -77,16 +67,11 @@ with col1:
     st.image(mix, use_container_width=True)
 
 with col2:
-    # RGB Mix（加法混色）
     t2 = st.slider("RGB Mix", 0.0, 1.0, 0.0, key="rgb_mix")
     imgs2 = []
     for vert, col in zip(
         verts,
-        [
-            (255,   0,   0, 180),   # Red
-            (  0, 255,   0, 180),   # Green
-            (  0,   0, 255, 180)    # Blue
-        ]
+        [(255, 0, 0, 180), (0, 255, 0, 180), (0, 0, 255, 180)]
     ):
         img2 = Image.new("RGBA", (size, size), (0, 0, 0, 255))
         draw2 = ImageDraw.Draw(img2)
@@ -99,10 +84,10 @@ with col2:
     mix2 = ImageChops.add(ImageChops.add(imgs2[0], imgs2[1]), imgs2[2])
     st.image(mix2, use_container_width=True)
 
-# --- RGB & YMCの特徴 ---
+# --- RGBとYMCの特徴 ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:25px;'>
       <strong>RGBとYMCの特徴</strong>
     </div>
     """,
@@ -114,15 +99,13 @@ st.write("- **YMC (減法混色)**: 顔料の三原色（イエロー、マゼ�
 # --- 階調（グレースケール） ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:25px;'>
       <strong>階調（グレースケール）</strong>
     </div>
     """,
     unsafe_allow_html=True
 )
-# セクション上部に余白
 st.markdown("<div style='margin-top:8px;'></div>", unsafe_allow_html=True)
-# 分かりやすい説明（行間狭め）
 st.markdown(
     """
     <div style='line-height:1.1;'>
@@ -134,8 +117,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-# グレースケール表示
 g_bits = st.slider("グレースケールのbit数", 1, 8, 4, key="gray_bits")
 g_levels = 2 ** g_bits
 st.write(f"1画素あたりのbit数: {g_bits} bit")
@@ -149,7 +130,7 @@ st.image(g_img, use_container_width=True)
 # --- 階調（RGB） ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px;'>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:25px;'>
       <strong>階調（RGB）</strong>
     </div>
     """,
@@ -171,17 +152,16 @@ for comp, col in zip(['R','G','B'], [(255,0,0),(0,255,0),(0,0,255)]):
 # --- 確認問題 ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:35px;'>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:25px;'>
       <strong>確認問題</strong>
     </div>
     """,
     unsafe_allow_html=True
 )
-# 問1 (旧問2)
 st.write("**問1:** RGBのうち2色を混ぜると何色になりますか？ 例としてRとGを混ぜると何色が表示されますか？")
 with st.expander("解答・解説1"):
     st.write("加法混色により黄色（R+G）が表示されます。")
-# 問2 (旧問3)
+
 colors = random.choice([2**i for i in range(1,9)])
 st.write(f"**問2:** {colors:,}色を表現するには何ビット必要ですか？")
 with st.expander("解答・解説2"):
@@ -189,7 +169,7 @@ with st.expander("解答・解説2"):
     while 2 ** bits != colors:
         bits += 1
     st.write(f"2^{bits} = {colors} なので、必要なビット数は {bits} ビットです。")
-# 問3 (旧問1)
+
 st.write("**問3:** 各色に割り当てるビット数が異なると、1画素で表現できる色数はどう変化しますか？ 例としてRGB各色を4bitと6bitにしたときの総色数を答えてください。")
 with st.expander("解答・解説3"):
     st.write("4bitの場合: 16 × 16 × 16 = 4096色")
