@@ -99,7 +99,7 @@ st.write("- **YMC (減法混色)**: 顔料の三原色（イエロー、マゼ�
 # --- 階調（グレースケール） ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:25px;'>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:30px;'>
       <strong>階調（グレースケール）</strong>
     </div>
     """,
