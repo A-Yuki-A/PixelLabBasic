@@ -1,8 +1,6 @@
 import streamlit as st
 import numpy as np
 from PIL import Image, ImageDraw, ImageChops
-import io
-import base64
 import random
 
 # --- ページ背景とフォント設定 ---
@@ -38,8 +36,8 @@ verts = [
 # --- Color Mixing Demonstration ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:35px;'>
-      <strong>Color Mixing Demonstration</strong>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:35px; font-weight:bold;'>
+      Color Mixing Demonstration
     </div>
     """,
     unsafe_allow_html=True
@@ -87,8 +85,8 @@ with col2:
 # --- RGBとYMCの特徴 ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:25px;'>
-      <strong>RGBとYMCの特徴</strong>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:25px; font-weight:bold;'>
+      RGBとYMCの特徴
     </div>
     """,
     unsafe_allow_html=True
@@ -99,8 +97,8 @@ st.write("- **YMC (減法混色)**: 顔料の三原色（イエロー、マゼ�
 # --- 階調（グレースケール） ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:50px;'>
-      <strong>階調（グレースケール）</strong>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:25px; font-weight:bold;'>
+      階調（グレースケール）
     </div>
     """,
     unsafe_allow_html=True
@@ -130,8 +128,8 @@ st.image(g_img, use_container_width=True)
 # --- 階調（RGB） ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:25px;'>
-      <strong>階調（RGB）</strong>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:25px; font-weight:bold;'>
+      階調（RGB）
     </div>
     """,
     unsafe_allow_html=True
@@ -152,8 +150,8 @@ for comp, col in zip(['R','G','B'], [(255,0,0),(0,255,0),(0,0,255)]):
 # --- 確認問題 ---
 st.markdown(
     """
-    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:25px;'>
-      <strong>確認問題</strong>
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:25px; font-weight:bold;'>
+      確認問題
     </div>
     """,
     unsafe_allow_html=True
