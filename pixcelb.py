@@ -33,10 +33,19 @@ size, radius = 200, 40
 cx, cy = size // 2, size // 2
 t_side = size - radius * 2
 h = t_side * np.sqrt(3) / 2
+
+# 元の三角形の頂点
 verts = [
     np.array([cx, cy - h/2]),
     np.array([cx - t_side/2, cy + h/2]),
     np.array([cx + t_side/2, cy + h/2])
+]
+
+# 頂点を中心に20%寄せる（中央寄せを強調）
+scale = 0.8
+verts = [
+    (v - np.array([cx, cy])) * scale + np.array([cx, cy])
+    for v in verts
 ]
 
 # --- Color Mixing Demonstration ---
