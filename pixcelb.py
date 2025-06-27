@@ -91,6 +91,29 @@ st.markdown(
 st.write("- **RGB (加法混色)**: 光の三原色（赤、緑、青）を混ぜると明るい色になります。ディスプレイ・カメラで使用。")
 st.write("- **YMC (減法混色)**: 顔料の三原色（イエロー、マゼンタ、シアン）を混ぜると暗い色になります。印刷・塗料で使用。")
 
+# --- カラーコードツール ---
+st.markdown(
+    """
+    <div style='background-color:#f0f0f0; padding:8px; border-radius:4px; font-size:30px; font-weight:bold;'>
+      カラーコードツール
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+col_r, col_g, col_b = st.columns(3)
+r_hex = col_r.text_input("R (16進2桁)", "FF", max_chars=2, key="hex_r")
+g_hex = col_g.text_input("G (16進2桁)", "00", max_chars=2, key="hex_g")
+b_hex = col_b.text_input("B (16進2桁)", "00", max_chars=2, key="hex_b")
+try:
+    r_val = int(r_hex, 16)
+    g_val = int(g_hex, 16)
+    b_val = int(b_hex, 16)
+    color_code = f"#{r_hex.upper()}{g_hex.upper()}{b_hex.upper()}"
+    st.markdown(f"<div style='width:100px; height:100px; background-color:{color_code}; border:1px solid #000;'></div>", unsafe_allow_html=True)
+    st.write(f"選択された色: {color_code} (R={r_val}, G={g_val}, B={b_val})")
+except ValueError:
+    st.write("16進数2桁で入力してください。")
+
 # --- 階調（グレースケール） ---
 st.markdown(
     """
@@ -129,7 +152,6 @@ st.write(f"RGB3色で {levels:,} × {levels:,} × {levels:,} = {total_colors:,} 
 gradient_rgb = np.linspace(0,255,levels, dtype=np.uint8)
 for comp, col in zip(['R','G','B'], [(255,0,0),(0,255,0),(0,0,255)]):
     arr = np.zeros((50, levels, 3), dtype=np.uint8)
-    # 各行に同じグラデーションを適用
     arr[:, :, {'R':0,'G':1,'B':2}[comp]] = gradient_rgb[None, :]
     img_comp = Image.fromarray(arr, 'RGB').resize((600,100), Image.NEAREST)
     st.image(img_comp, use_container_width=True)
