@@ -27,6 +27,8 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+# 説明文追加
+st.write("各色に16進数2桁を半角で入力しなさい。")
 
 # --- ツール名 ---
 st.title("Color Depth Explorer")
