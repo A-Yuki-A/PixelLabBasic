@@ -9,16 +9,14 @@ st.markdown(
     """
     <style>
       /* アプリ背景 */
-      [data-testid="stAppViewContainer"] { background-color: #f5f5f5; }
+      [data-testid=\"stAppViewContainer\"] { background-color: #f5f5f5; }
       /* コンテナ背景 */
       div.block-container { background-color: #fcfcfc; padding: 1.5rem; border-radius: 10px; }
       /* 本文フォントはpタグなどに限定 */
       body, .stMarkdown p, .stWrite > p { font-size:15px; }
       /* スライダーのラベル（bit数タイトル）を大きく */
-      div[data-testid="stSlider"] label,
-      div[data-testid="stSlider"] span {
-        font-size:20px !important;
-      }
+      div[data-testid=\"stSlider\"] label,
+      div[data-testid=\"stSlider\"] span { font-size:20px !important; }
       /* ツール名 */
       .block-container h1 { color: #333333; font-size:35px !important; margin-top:10px !important; }
       /* セクション見出しh2 */
@@ -43,7 +41,6 @@ verts = [
     np.array([cx - t_side/2, cy + h/2]),
     np.array([cx + t_side/2, cy + h/2])
 ]
-# 中央寄せを強調
 scale = 0.8
 verts = [(v - np.array([cx, cy])) * scale + np.array([cx, cy]) for v in verts]
 
@@ -56,34 +53,23 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-# カラムを取得（左: RGB, 右: YMC）
 col1, col2 = st.columns(2)
-
 with col1:
-    # RGB Mix ツール
     t2 = st.slider("RGB Mix", 0.0, 1.0, 0.0, key="rgb_mix")
     imgs2 = []
-    for vert, col in zip(
-        verts,
-        [(255,0,0,180),(0,255,0,180),(0,0,255,180)]
-    ):
-        img2 = Image.new("RGBA", (size,size), (0,0,0,255))
+    for vert, col in zip(verts, [(255,0,0,180),(0,255,0,180),(0,0,255,180)]):
+        img2 = Image.new("RGBA", (size, size), (0,0,0,255))
         draw2 = ImageDraw.Draw(img2)
         pos2 = tuple((vert * (1-t2) + np.array([cx,cy]) * t2).astype(int))
         draw2.ellipse([pos2[0]-radius, pos2[1]-radius, pos2[0]+radius, pos2[1]+radius], fill=col)
         imgs2.append(img2)
     mix2 = ImageChops.add(ImageChops.add(imgs2[0], imgs2[1]), imgs2[2])
     st.image(mix2, use_container_width=True)
-
 with col2:
-    # YMC Mix ツール
     t = st.slider("YMC Mix", 0.0, 1.0, 0.0, key="ymc_mix")
     imgs = []
-    for vert, col in zip(
-        verts,
-        [(255,255,0,255),(255,0,255,255),(0,255,255,255)]
-    ):
-        img = Image.new("RGBA", (size,size), (255,255,255,255))
+    for vert, col in zip(verts, [(255,255,0,255),(255,0,255,255),(0,255,255,255)]):
+        img = Image.new("RGBA", (size, size), (255,255,255,255))
         draw = ImageDraw.Draw(img)
         pos = tuple((vert * (1-t) + np.array([cx,cy]) * t).astype(int))
         draw.ellipse([pos[0]-radius, pos[1]-radius, pos[0]+radius, pos[1]+radius], fill=col)
@@ -118,7 +104,6 @@ g_bits = st.slider("グレースケールのbit数", 1, 8, 4, key="gray_bits")
 g_levels = 2 ** g_bits
 st.write(f"1画素あたりのbit数: {g_bits} bit")
 st.write(f"総階調数: {g_levels:,} 階調")
-# 階調サンプル画像生成
 gradient = np.linspace(0, 255, g_levels, dtype=np.uint8)
 g = np.tile(gradient, (50, 1))
 gray_img = Image.fromarray(g, mode='L').resize((600, 100), resample=Image.NEAREST)
@@ -141,9 +126,11 @@ st.write(f"1画素あたりのbit数: R {rgb_bits}bit + G {rgb_bits}bit + B {rgb
 st.write(f"総色数: {total_colors:,} 色")
 st.write(f"各色{rgb_bits}bitなので {' × '.join(['2']*rgb_bits)} = {levels:,} 階調")
 st.write(f"RGB3色で {levels:,} × {levels:,} × {levels:,} = {total_colors:,} 色")
+gradient_rgb = np.linspace(0,255,levels, dtype=np.uint8)
 for comp, col in zip(['R','G','B'], [(255,0,0),(0,255,0),(0,0,255)]):
     arr = np.zeros((50, levels, 3), dtype=np.uint8)
-    arr[:, :, {'R':0,'G':1,'B':2}[comp]] = np.linspace(0,255,levels, dtype=np.uint8)[:, None]
+    # 各行に同じグラデーションを適用
+    arr[:, :, {'R':0,'G':1,'B':2}[comp]] = gradient_rgb[None, :]
     img_comp = Image.fromarray(arr, 'RGB').resize((600,100), Image.NEAREST)
     st.image(img_comp, use_container_width=True)
 
