@@ -27,8 +27,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-# 説明文追加
-
 
 # --- ツール名 ---
 st.title("Color Depth Explorer")
@@ -102,6 +100,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+st.write("各色に16進数2桁を半角で入力しなさい。")
 col_r, col_g, col_b = st.columns(3)
 r_hex = col_r.text_input("R (16進2桁)", "FF", max_chars=2, key="hex_r")
 g_hex = col_g.text_input("G (16進2桁)", "00", max_chars=2, key="hex_g")
